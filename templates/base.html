@@ -43,6 +43,18 @@
       <a href="{% url 'newsfeed:post_list' %}">News</a>
     </nav>
     <div class="nav-actions">
+      <div class="lang-select" id="langSelect">
+        <button class="lang-btn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Select language">
+          <span class="lang-globe" aria-hidden="true">🌐</span><span class="lang-current" id="langCurrent">EN</span>
+        </button>
+        <div class="lang-menu" id="langMenu" role="menu">
+          <button type="button" role="menuitem" data-lang="en">English</button>
+          <button type="button" role="menuitem" data-lang="ar">العربية</button>
+          <button type="button" role="menuitem" data-lang="fr">Français</button>
+          <button type="button" role="menuitem" data-lang="sw">Kiswahili</button>
+        </div>
+      </div>
+      <div id="google_translate_element" aria-hidden="true"></div>
       <button class="theme-toggle" id="themeToggle" type="button">
         <span class="theme-icon">🌙</span><span class="theme-label">Dark</span>
       </button>
@@ -141,6 +153,65 @@
 {% endblock %}
 
   <script src="{% static 'js/main.js' %}"></script>
+
+  <script>
+    // Compact globe language menu driven by Google Translate's own cookie —
+    // the Google widget itself stays hidden (see main.css). No API key needed.
+    (function () {
+      var LANGS = { en: "EN", ar: "AR", fr: "FR", sw: "SW" };
+
+      function currentLang() {
+        var m = document.cookie.match(/googtrans=\/[a-z-]+\/([a-z-]+)/i);
+        return m ? m[1] : "en";
+      }
+
+      function setLanguage(lang) {
+        var host = window.location.hostname;
+        var bare = host.replace(/^www\./, "");
+        [host, "." + host, bare, "." + bare].forEach(function (d) {
+          document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=" + d;
+        });
+        document.cookie = "googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        if (lang && lang !== "en") {
+          document.cookie = "googtrans=/en/" + lang + "; path=/;";
+          document.cookie = "googtrans=/en/" + lang + "; path=/; domain=." + bare;
+        }
+        window.location.reload();
+      }
+
+      var select = document.getElementById("langSelect");
+      var btn = document.getElementById("langBtn");
+      var menu = document.getElementById("langMenu");
+      var label = document.getElementById("langCurrent");
+
+      if (label) label.textContent = LANGS[currentLang()] || "EN";
+
+      if (btn && menu && select) {
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var open = select.classList.toggle("open");
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        document.addEventListener("click", function () {
+          select.classList.remove("open");
+          btn.setAttribute("aria-expanded", "false");
+        });
+        menu.querySelectorAll("[data-lang]").forEach(function (item) {
+          if (item.dataset.lang === currentLang()) item.classList.add("active");
+          item.addEventListener("click", function () { setLanguage(item.dataset.lang); });
+        });
+      }
+
+      window.googleTranslateElementInit = function () {
+        new google.translate.TranslateElement(
+          { pageLanguage: "en", includedLanguages: Object.keys(LANGS).join(","), autoDisplay: false },
+          "google_translate_element"
+        );
+      };
+    })();
+  </script>
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
   {% block extra_js %}{% endblock %}
 </body>
 </html>
