@@ -396,3 +396,49 @@ a.chip.active { background: var(--green); border-color: var(--green); color: #ff
 .article-body { max-width: 760px; line-height: 1.75; }
 .article-body p { margin: 0 0 1rem; }
 hr.rule { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+/* ---------- Mobile spacing & density ----------
+   On phones the desktop rhythm (3.5rem sections, 1.6rem card padding, 1.5rem
+   grid gaps) leaves the page feeling sparse and endless. Tighten everything
+   and stop 2-column grids from leaving a lonely last item. */
+@media (max-width: 720px) {
+  .section { padding: 2.1rem 0; }
+  .section.tight { padding: 1.4rem 0; }
+  .section-head { margin-bottom: 1.4rem; }
+  .section-head h2 { font-size: clamp(1.35rem, 6vw, 1.7rem); }
+
+  .grid { gap: 1rem; }
+  .split { gap: 1.25rem; }
+  .value-list, .stat-grid { gap: 0.85rem; }
+
+  .card { padding: 1.15rem; border-radius: 12px; }
+  .card .icon-badge { width: 42px; height: 42px; font-size: 1.2rem; margin-bottom: 0.55rem; }
+  .card h3 { font-size: 1.05rem; }
+
+  .testimonial { padding: 1.15rem; }
+  .testimonial blockquote { margin-bottom: 0.75rem; }
+
+  .media-card .body { padding: 1rem; }
+
+  .hero { padding: clamp(2.6rem, 9vw, 3.75rem) 1.25rem; }
+  .hero-content h1 { margin-bottom: 0.75rem; }
+  .hero-actions { gap: 0.75rem; }
+
+  .prose p { margin-bottom: 0.8rem; }
+
+  /* Stats: 2-up, and a lone final card spans the full row instead of
+     sitting orphaned beside empty space. */
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .stat { padding: 1.15rem 0.75rem; }
+  .stat .value { font-size: clamp(1.45rem, 8vw, 2rem); }
+  .stat-grid > .stat:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+  /* Who-we-are thumbnails: keep them as a tidy 2-up strip */
+  .gallery { grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+}
+
+@media (max-width: 400px) {
+  .section-head p, .lead { font-size: 0.95rem; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { width: 100%; }
+}
