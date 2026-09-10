@@ -1,0 +1,7 @@
+{% comment %}Expects: hero_title, hero_subtitle, optional hero_image, optional hero_actions block via caller.{% endcomment %}
+<section class="hero hero-sub"{% if hero_image %} style="background-image: linear-gradient(rgba(15,61,34,.78), rgba(20,83,45,.82)), url('{{ hero_image.url }}');"{% endif %}>
+  <div class="hero-content">
+    <h1>{{ hero_title }}</h1>
+    {% if hero_subtitle %}<p>{{ hero_subtitle }}</p>{% endif %}
+  </div>
+</section>

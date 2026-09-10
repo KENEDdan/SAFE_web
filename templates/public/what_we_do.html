@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}What We Do — {{ site.organization_name }}{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title=page.hero_title hero_subtitle=page.hero_subtitle hero_image=page.hero_image %}
+
+<section class="section">
+  <div class="container prose" style="margin:0 auto;"><p class="lead">{{ page.intro }}</p></div>
+</section>
+
+{% if programs %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.programs_heading }}</h2></div>
+    <div class="grid grid-2">
+      {% for p in programs %}
+        <div class="card card-feature">
+          {% if p.icon %}<div class="icon-badge">{{ p.icon }}</div>{% endif %}
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.description|default:p.summary }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section">
+  <div class="container prose" style="margin:0 auto;">
+    <h2>{{ page.approach_heading }}</h2>
+    <p>{{ page.approach_body }}</p>
+  </div>
+</section>
+
+{% if themes %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.themes_heading }}</h2><p>{{ page.themes_intro }}</p></div>
+    <div class="grid grid-3">
+      {% for t in themes %}
+        <div class="card card-accent"><h3>{{ t.title }}</h3><p>{{ t.description }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

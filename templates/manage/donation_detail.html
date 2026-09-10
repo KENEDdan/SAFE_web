@@ -1,0 +1,27 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Donation {{ object.reference_code }}{% endblock %}
+{% block console %}
+<div class="toolbar">
+  <h1>Donation {{ object.reference_code }}</h1>
+  <a href="{% url 'submissions:donation_list' %}" class="btn btn-secondary btn-sm">&larr; All donations</a>
+</div>
+<div class="card" style="max-width:640px;">
+  <table class="data-table">
+    <tbody>
+      <tr><th>Donor</th><td>{{ object.donor_name }}</td></tr>
+      <tr><th>Email</th><td><a href="mailto:{{ object.donor_email }}">{{ object.donor_email }}</a></td></tr>
+      <tr><th>Phone</th><td>{{ object.donor_phone|default:"—" }}</td></tr>
+      <tr><th>Amount</th><td>{{ object.currency }} {{ object.amount }}</td></tr>
+      <tr><th>Message</th><td style="white-space:pre-line;">{{ object.message|default:"—" }}</td></tr>
+      <tr><th>Proof of payment</th><td>{% if object.proof_of_payment %}<a href="{{ object.proof_of_payment.url }}" target="_blank">Download</a>{% else %}Not uploaded{% endif %}</td></tr>
+      <tr><th>Status</th><td><span class="status-pill status-{{ object.status }}">{{ object.get_status_display }}</span></td></tr>
+      {% if object.confirmed_by %}<tr><th>Confirmed by</th><td>{{ object.confirmed_by }} on {{ object.confirmed_at|date:"j M Y" }}</td></tr>{% endif %}
+    </tbody>
+  </table>
+  <form method="post" style="margin-top:1rem;">
+    {% csrf_token %}
+    <button name="action" value="confirm" class="btn btn-primary">Confirm receipt</button>
+    <button name="action" value="reject" class="btn btn-danger">Reject proof</button>
+  </form>
+</div>
+{% endblock %}

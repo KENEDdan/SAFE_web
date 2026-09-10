@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Community Resources — {{ site.organization_name }}{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title=page.hero_title hero_subtitle=page.hero_subtitle hero_image=page.hero_image %}
+
+<section class="section">
+  <div class="container split">
+    <div class="prose">
+      <h2>{{ page.program_heading }}</h2>
+      <p>{{ page.program_body }}</p>
+    </div>
+    <div class="card card-feature">
+      <h3>{{ page.how_to_access_heading }}</h3>
+      <p>{{ page.how_to_access_body }}</p>
+    </div>
+  </div>
+</section>
+
+{% if resources %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.catalogue_heading }}</h2></div>
+    <div class="grid grid-3">
+      {% for r in resources %}
+        <div class="card">
+          {% if r.category %}<span class="pill">{{ r.category }}</span>{% endif %}
+          <h3>{{ r.name }}</h3>
+          <p>{{ r.description }}</p>
+          <p style="margin-top:0.5rem;"><span class="status-pill status-{{ r.availability }}">{{ r.get_availability_display }}</span></p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="section" id="request">
+  <div class="container" style="max-width:640px;">
+    <div class="section-head"><h2>{{ page.request_form_heading }}</h2><p>{{ page.request_form_intro }}</p></div>
+    <div class="card">
+      {% url 'submissions:resource_request_submit' as action_url %}
+      {% include "public/_form.html" with form=form action=action_url submit_label="Send request" %}
+    </div>
+  </div>
+</section>
+{% endblock %}

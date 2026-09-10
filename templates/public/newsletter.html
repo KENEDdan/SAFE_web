@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Newsletter — {{ site.organization_name }}{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title="Join Our Community" hero_subtitle=site.newsletter_blurb %}
+
+<section class="section">
+  <div class="container" style="max-width:520px;text-align:center;">
+    <p class="lead">Subscribe for the latest updates on sustainable agriculture, forest conservation, and community empowerment in South Sudan.</p>
+    <div class="card">
+      <form method="post" action="{% url 'submissions:newsletter_signup' %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="form-group">
+          <label for="nl-email">Email address</label>
+          <input type="email" id="nl-email" name="email" class="form-input" placeholder="you@example.org" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

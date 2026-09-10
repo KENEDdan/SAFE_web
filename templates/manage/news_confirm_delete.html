@@ -1,0 +1,13 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Delete news post — Console{% endblock %}
+{% block console %}
+<h1>Delete news post</h1>
+<div class="card" style="max-width:520px;">
+  <p>Delete <strong>{{ object.title }}</strong> and its gallery? This can't be undone.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url 'newsfeed:manage_list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

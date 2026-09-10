@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ activity.title }} — {{ site.organization_name }}{% endblock %}
+{% block meta_description %}{{ activity.summary }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <p><a href="{% url 'content:activity_list' %}">&larr; All activities</a></p>
+    <span class="pill">{{ activity.get_category_display }}</span>
+    <h1>{{ activity.title }}</h1>
+    <p class="news-meta">
+      {% if activity.activity_date %}{{ activity.activity_date|date:"j M Y" }}{% endif %}
+      {% if activity.location %}{% if activity.activity_date %} · {% endif %}{{ activity.location }}{% endif %}
+      {% if activity.sponsors %} · Sponsors: {{ activity.sponsors }}{% endif %}
+    </p>
+
+    {% if activity.youtube_embed_url %}
+      <div class="video-embed"><iframe src="{{ activity.youtube_embed_url }}" allowfullscreen></iframe></div>
+    {% elif activity.thumbnail %}
+      <img src="{{ activity.thumbnail.url }}" alt="{{ activity.title }}" style="width:100%;border-radius:14px;margin:1rem 0;">
+    {% endif %}
+
+    <div class="article-body">{{ activity.body|linebreaks }}</div>
+
+    {% if activity.images.all %}
+      <h3 style="margin-top:2rem;">Gallery</h3>
+      <div class="gallery">
+        {% for img in activity.images.all %}
+          <figure><img src="{{ img.image.url }}" alt="{{ img.caption }}">{% if img.caption %}<figcaption class="helptext">{{ img.caption }}</figcaption>{% endif %}</figure>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if others %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>More activities</h2></div>
+    <div class="grid grid-3">
+      {% for a in others %}
+        <a class="media-card" href="{{ a.get_absolute_url }}">
+          <div class="thumb">{% if a.thumbnail %}<img src="{{ a.thumbnail.url }}" alt="{{ a.title }}">{% elif a.youtube_thumbnail_url %}<img src="{{ a.youtube_thumbnail_url }}" alt="{{ a.title }}">{% endif %}</div>
+          <div class="body"><span class="pill">{{ a.get_category_display }}</span><h3>{{ a.title }}</h3><p>{{ a.summary }}</p></div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

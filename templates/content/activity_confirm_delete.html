@@ -1,0 +1,13 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Delete activity — Console{% endblock %}
+{% block console %}
+<h1>Delete activity</h1>
+<div class="card" style="max-width:520px;">
+  <p>Delete <strong>{{ object.title }}</strong> and its photo gallery? This can't be undone.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url 'content:manage_activities' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

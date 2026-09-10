@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+*.sqlite3
+/staticfiles/
+/media/
+.DS_Store
+*.log
+.idea/
+.vscode/
+
+# local dev screenshots
+.screens/

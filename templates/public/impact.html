@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Our Impact — {{ site.organization_name }}{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title=page.hero_title hero_subtitle=page.hero_subtitle hero_image=page.hero_image %}
+
+<section class="section">
+  <div class="container prose" style="margin:0 auto;"><p class="lead">{{ page.intro }}</p></div>
+</section>
+
+{% if stats %}
+<section class="section-alt section tight">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.stats_heading }}</h2></div>
+    <div class="stat-grid">
+      {% for s in stats %}<div class="stat"><div class="value">{{ s.value }}</div><div class="label">{{ s.label }}</div></div>{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if beneficiaries %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.beneficiaries_heading }}</h2><p>{{ page.beneficiaries_intro }}</p></div>
+    <div class="grid grid-2">
+      {% for b in beneficiaries %}
+        <div class="card card-feature"><h3>{{ b.value }}</h3><p>{{ b.label }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if milestones %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.pathway_heading }}</h2><p>{{ page.pathway_intro }}</p></div>
+    <div class="grid grid-3">
+      {% for m in milestones %}
+        <div class="card">
+          {% if m.period %}<span class="pill">{{ m.period }}</span>{% endif %}
+          <h3>{{ m.title }}</h3><p>{{ m.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if testimonials %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.voices_heading }}</h2><p>{{ page.voices_intro }}</p></div>
+    <div class="grid grid-2">
+      {% for t in testimonials %}
+        <div class="testimonial">
+          <blockquote>“{{ t.story }}”</blockquote>
+          <div class="who">{{ t.author }}<span>{{ t.role }}{% if t.location %} · {{ t.location }}{% endif %}</span></div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if gallery %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.gallery_heading }}</h2></div>
+    <div class="gallery">
+      {% for img in gallery %}<figure><img src="{{ img.image.url }}" alt="{{ img.caption }}"></figure>{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

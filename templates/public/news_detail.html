@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} — {{ site.organization_name }}{% endblock %}
+{% block meta_description %}{{ post.brief_description }}{% endblock %}
+{% block content %}
+<section class="section">
+  <div class="container">
+    <p><a href="{% url 'newsfeed:post_list' %}">&larr; All news</a></p>
+    <span class="pill">{{ post.get_category_display }}</span>
+    <h1>{{ post.title }}</h1>
+    <p class="news-meta">{{ post.created_at|date:"j M Y" }}{% if post.created_by %} · {{ post.created_by.get_full_name|default:post.created_by.username }}{% endif %}</p>
+
+    {% if post.youtube_embed_url %}
+      <div class="video-embed"><iframe src="{{ post.youtube_embed_url }}" allowfullscreen></iframe></div>
+    {% elif post.thumbnail %}
+      <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}" style="width:100%;border-radius:14px;margin:1rem 0;">
+    {% endif %}
+
+    <div class="article-body">{{ post.body|linebreaks }}</div>
+
+    {% if post.document %}
+      <p class="tag-row" style="margin-top:1.25rem;">
+        <a href="{{ post.document.url }}" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Read PDF</a>
+        <a href="{{ post.document.url }}" class="btn btn-outline btn-sm" download>Download PDF</a>
+      </p>
+    {% endif %}
+
+    {% if post.gallery.all %}
+      <h3 style="margin-top:2rem;">Gallery</h3>
+      <div class="gallery">
+        {% for item in post.gallery.all %}
+          <figure>
+            {% if item.image %}<img src="{{ item.image.url }}" alt="{{ item.caption }}">
+            {% elif item.youtube_embed_url %}<div class="video-embed"><iframe src="{{ item.youtube_embed_url }}" allowfullscreen></iframe></div>{% endif %}
+            {% if item.caption %}<figcaption class="helptext">{{ item.caption }}</figcaption>{% endif %}
+          </figure>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if related %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>More news</h2></div>
+    <div class="grid grid-3">
+      {% for post in related %}
+        <a class="media-card" href="{{ post.get_absolute_url }}">
+          <div class="thumb">{% if post.thumbnail %}<img src="{{ post.thumbnail.url }}" alt="{{ post.title }}">{% elif post.youtube_thumbnail_url %}<img src="{{ post.youtube_thumbnail_url }}" alt="{{ post.title }}">{% endif %}</div>
+          <div class="body"><span class="pill">{{ post.get_category_display }}</span><h3>{{ post.title }}</h3><p>{{ post.brief_description }}</p></div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Activities — {{ site.organization_name }}{% endblock %}
+{% block meta_description %}Trainings, field activities, community events, and dialogues run by {{ site.organization_name }} across South Sudan.{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title="Our Activities" hero_subtitle="Trainings, field work, community events, and dialogues from across our programmes." %}
+
+<section class="section">
+  <div class="container">
+    <div class="tag-row" style="margin-bottom:1.75rem;">
+      <a href="{% url 'content:activity_list' %}" class="chip {% if not active_category %}active{% endif %}">All</a>
+      {% for value, label in categories %}
+        <a href="?category={{ value }}" class="chip {% if active_category == value %}active{% endif %}">{{ label }}</a>
+      {% endfor %}
+    </div>
+
+    {% if activities %}
+    <div class="grid grid-3">
+      {% for a in activities %}
+        <a class="media-card" href="{{ a.get_absolute_url }}">
+          <div class="thumb">
+            {% if a.thumbnail %}<img src="{{ a.thumbnail.url }}" alt="{{ a.title }}">
+            {% elif a.youtube_thumbnail_url %}<img src="{{ a.youtube_thumbnail_url }}" alt="{{ a.title }}">{% endif %}
+          </div>
+          <div class="body">
+            <span class="pill">{{ a.get_category_display }}</span>
+            <h3>{{ a.title }}</h3>
+            <p>{{ a.summary }}</p>
+            <p class="news-meta">{{ a.activity_date|date:"j M Y" }}{% if a.activity_date and a.location %} · {% endif %}{{ a.location }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p class="lead" style="text-align:center;">No activities published yet — check back soon.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

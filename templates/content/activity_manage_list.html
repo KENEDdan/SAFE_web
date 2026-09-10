@@ -1,0 +1,31 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Activities — Console{% endblock %}
+{% block console %}
+<div class="toolbar">
+  <h1>Activities</h1>
+  <a href="{% url 'content:activities_create' %}" class="btn btn-primary btn-sm">+ Add activity</a>
+</div>
+<div class="card" style="overflow-x:auto;">
+  <table class="data-table">
+    <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Location</th><th>Published</th><th></th></tr></thead>
+    <tbody>
+      {% for a in objects %}
+      <tr>
+        <td>{{ a.title }}</td>
+        <td>{{ a.get_category_display }}</td>
+        <td>{{ a.activity_date|date:"j M Y"|default:"—" }}</td>
+        <td>{{ a.location|default:"—" }}</td>
+        <td>{% if a.is_published %}<span class="status-pill status-yes">Yes</span>{% else %}<span class="status-pill status-no">No</span>{% endif %}</td>
+        <td style="white-space:nowrap;">
+          <a href="{{ a.get_absolute_url }}" class="btn btn-outline btn-sm" target="_blank">View</a>
+          <a href="{% url 'content:activities_edit' a.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+          <a href="{% url 'content:activities_delete' a.pk %}" class="btn btn-outline btn-sm">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6">No activities yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

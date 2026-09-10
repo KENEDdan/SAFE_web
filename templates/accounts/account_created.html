@@ -1,0 +1,16 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Account {% if is_reset %}reset{% else %}created{% endif %} — Console{% endblock %}
+{% block console %}
+<h1>{% if is_reset %}Password reset{% else %}Account created{% endif %}</h1>
+<div class="card" style="max-width:560px;">
+  <p><strong>Username:</strong> {{ account.username }}</p>
+  <p><strong>Temporary password:</strong> <code style="font-size:1.1rem;">{{ temp_password }}</code></p>
+  {% if email_sent %}
+    <p class="alert alert-success">The temporary password was emailed to {{ account.email }}.</p>
+  {% else %}
+    <p class="alert alert-error">No email was sent — share the temporary password with them directly.</p>
+  {% endif %}
+  <p>They will be asked to choose a new password the first time they log in.</p>
+  <a href="{% url 'accounts:account_list' %}" class="btn btn-primary">Back to accounts</a>
+</div>
+{% endblock %}

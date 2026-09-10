@@ -1,0 +1,13 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Reset password — Console{% endblock %}
+{% block console %}
+<h1>Reset password for {{ account.username }}</h1>
+<div class="card" style="max-width:520px;">
+  <p>This generates a new temporary password and forces {{ account.get_full_name|default:account.username }} to set a new one on next login.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Reset password</button>
+    <a href="{% url 'accounts:account_list' %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

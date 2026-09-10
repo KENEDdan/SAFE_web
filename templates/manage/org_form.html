@@ -1,0 +1,11 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Organization profile — Console{% endblock %}
+{% block console %}
+<h1>Organization profile</h1>
+<p class="lead">Headcount and reach figures shown on the Team &amp; Leadership and About pages. Only non-zero figures appear on the site.</p>
+<form method="post" class="card" style="max-width:680px;">
+  {% csrf_token %}
+  {% include "manage/_form_fields.html" %}
+  <button type="submit" class="btn btn-primary">Save organization profile</button>
+</form>
+{% endblock %}

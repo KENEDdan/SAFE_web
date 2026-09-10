@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{{ site.organization_name }} — {{ site.organization_full_name }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ site.meta_description }}{% endblock %}">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('safe-theme');
+        if (saved === 'dark' || saved === 'light') {
+          document.documentElement.setAttribute('data-theme', saved);
+        }
+      } catch (e) {}
+    })();
+  </script>
+  {% if site.favicon %}<link rel="icon" href="{{ site.favicon.url }}">{% endif %}
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+{% block chrome %}
+  <header class="site-header">
+    <div class="header-left">
+      <button class="hamburger-btn" id="burger" type="button" aria-label="Menu">☰</button>
+      <a href="{% url 'pages:home' %}" class="brand">
+        {% if site.logo %}
+          <img src="{{ site.logo.url }}" alt="{{ site.organization_name }}">
+        {% else %}
+          <img src="{% static 'images/seed/logo.png' %}" alt="{{ site.organization_name }}">
+        {% endif %}
+        <span class="brand-name">{{ site.organization_name }}<span>{{ site.organization_full_name }}</span></span>
+      </a>
+    </div>
+    <nav class="primary-nav">
+      <a href="{% url 'pages:about' %}">About</a>
+      <a href="{% url 'pages:what_we_do' %}">What We Do</a>
+      <a href="{% url 'content:project_list' %}">Projects</a>
+      <a href="{% url 'content:activity_list' %}">Activities</a>
+      <a href="{% url 'pages:impact' %}">Impact</a>
+      <a href="{% url 'newsfeed:post_list' %}">News</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" type="button">
+        <span class="theme-icon">🌙</span><span class="theme-label">Dark</span>
+      </button>
+      {% if site.donate_enabled %}
+        <a href="{% url 'pages:get_involved' %}#donate" class="btn btn-donate btn-sm">Donate</a>
+      {% endif %}
+      {% if user.is_authenticated %}
+        <a href="{% url 'accounts:dashboard' %}" class="btn btn-secondary btn-sm">Console</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="drawer" id="drawer">
+    <nav>
+      <a href="{% url 'pages:home' %}">Home</a>
+      <a href="{% url 'pages:about' %}">About</a>
+      <a href="{% url 'pages:what_we_do' %}">What We Do</a>
+      <a href="{% url 'content:project_list' %}">Projects</a>
+      <a href="{% url 'content:activity_list' %}">Activities</a>
+      <a href="{% url 'pages:impact' %}">Impact</a>
+      <a href="{% url 'content:team_list' %}">Team &amp; Leadership</a>
+      <a href="{% url 'pages:resources' %}">Resources</a>
+      <a href="{% url 'newsfeed:post_list' %}">News &amp; Updates</a>
+      <a href="{% url 'pages:get_involved' %}">Get Involved</a>
+      <a href="{% url 'pages:contact' %}">Contact</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'accounts:dashboard' %}">Management Console</a>
+      {% else %}
+        <a href="{% url 'accounts:login' %}">Staff Login</a>
+      {% endif %}
+    </nav>
+  </div>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+{% endblock %}
+
+  <main class="page">
+    {% if messages %}
+      <div class="container" style="margin-top:1.25rem;">
+        {% for message in messages %}
+          <div class="alert {% if message.tags == 'error' %}alert-error{% else %}alert-success{% endif %}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+
+{% block footer %}
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        {% if site.logo %}<img src="{{ site.logo.url }}" alt="{{ site.organization_name }}">{% else %}<img src="{% static 'images/seed/logo.png' %}" alt="{{ site.organization_name }}">{% endif %}
+        <p>{{ site.footer_blurb }}</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="{% url 'pages:about' %}">About Us</a>
+        <a href="{% url 'pages:what_we_do' %}">What We Do</a>
+        <a href="{% url 'content:project_list' %}">Projects</a>
+        <a href="{% url 'content:activity_list' %}">Activities</a>
+        <a href="{% url 'content:team_list' %}">Team &amp; Leadership</a>
+        <a href="{% url 'pages:impact' %}">Our Impact</a>
+        <a href="{% url 'newsfeed:post_list' %}">News &amp; Updates</a>
+        <a href="{% url 'pages:get_involved' %}">Get Involved</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        {% if site.address %}<p>{{ site.address }}</p>{% endif %}
+        {% if site.phone_primary %}<p>{{ site.phone_primary }}</p>{% endif %}
+        {% if site.contact_email %}<a href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a>{% endif %}
+        <a href="{% url 'pages:contact' %}">Full contact details</a>
+      </div>
+      <div class="footer-col">
+        <h4>Stay Connected</h4>
+        <p>{{ site.newsletter_blurb }}</p>
+        <form class="newsletter-form" method="post" action="{% url 'submissions:newsletter_signup' %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input type="email" name="email" class="form-input" placeholder="Your email address" required>
+          <button type="submit" class="btn btn-accent btn-sm">Subscribe</button>
+        </form>
+        <div class="social-row">
+          {% if site.facebook_url %}<a href="{{ site.facebook_url }}" aria-label="Facebook">f</a>{% endif %}
+          {% if site.twitter_url %}<a href="{{ site.twitter_url }}" aria-label="Twitter">x</a>{% endif %}
+          {% if site.linkedin_url %}<a href="{{ site.linkedin_url }}" aria-label="LinkedIn">in</a>{% endif %}
+          {% if site.instagram_url %}<a href="{{ site.instagram_url }}" aria-label="Instagram">ig</a>{% endif %}
+          {% if site.whatsapp_link %}<a href="{{ site.whatsapp_link }}" aria-label="WhatsApp">wa</a>{% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; {% now "Y" %} {{ site.organization_name }} — {{ site.organization_full_name }}. All rights reserved.
+      {% if not user.is_authenticated %}<a href="{% url 'accounts:login' %}" style="margin-left:0.5rem;">Staff login</a>{% endif %}
+    </div>
+  </footer>
+{% endblock %}
+
+  <script src="{% static 'js/main.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

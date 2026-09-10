@@ -1,0 +1,11 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Site settings — Console{% endblock %}
+{% block console %}
+<h1>Site settings</h1>
+<p class="lead">These values appear across the whole website — in the header, footer, contact page, and page metadata.</p>
+<form method="post" enctype="multipart/form-data" class="card" style="max-width:760px;">
+  {% csrf_token %}
+  {% include "manage/_form_fields.html" %}
+  <button type="submit" class="btn btn-primary">Save site settings</button>
+</form>
+{% endblock %}

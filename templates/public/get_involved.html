@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Get Involved — {{ site.organization_name }}{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title=page.hero_title hero_subtitle=page.hero_subtitle hero_image=page.hero_image %}
+
+<section class="section">
+  <div class="container prose" style="margin:0 auto;"><p class="lead">{{ page.intro }}</p></div>
+</section>
+
+<section class="section-alt section" id="donate">
+  <div class="container split">
+    <div class="prose">
+      <span class="eyebrow">Donate</span>
+      <h2>{{ page.donate_heading }}</h2>
+      <p>{{ page.donate_body }}</p>
+      {% if donation_settings.account_number %}
+      <div class="card" style="margin-top:1rem;">
+        <h3>Bank transfer</h3>
+        <p style="white-space:pre-line;">{{ donation_settings.instructions }}</p>
+        <table class="data-table">
+          <tbody>
+            {% if donation_settings.bank_name %}<tr><th>Bank</th><td>{{ donation_settings.bank_name }}</td></tr>{% endif %}
+            {% if donation_settings.account_name %}<tr><th>Account name</th><td>{{ donation_settings.account_name }}</td></tr>{% endif %}
+            {% if donation_settings.account_number %}<tr><th>Account number</th><td>{{ donation_settings.account_number }}</td></tr>{% endif %}
+            {% if donation_settings.branch %}<tr><th>Branch</th><td>{{ donation_settings.branch }}</td></tr>{% endif %}
+            {% if donation_settings.swift_code %}<tr><th>SWIFT</th><td>{{ donation_settings.swift_code }}</td></tr>{% endif %}
+          </tbody>
+        </table>
+        {% if donation_settings.mobile_money_note %}<p>{{ donation_settings.mobile_money_note }}</p>{% endif %}
+      </div>
+      {% endif %}
+    </div>
+    <div class="card">
+      <h3>Record your donation</h3>
+      <p class="helptext">Tell us about your gift and upload proof of payment so our team can confirm it.</p>
+      {% url 'submissions:donation_submit' as action_url %}
+      {% include "public/_form.html" with form=donation_form action=action_url submit_label="Submit donation" form_multipart=True %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="volunteer">
+  <div class="container split">
+    <div class="prose">
+      <span class="eyebrow">Volunteer</span>
+      <h2>{{ page.volunteer_heading }}</h2>
+      <p>{{ page.volunteer_body }}</p>
+    </div>
+    <div class="card">
+      {% url 'submissions:volunteer_submit' as action_url %}
+      {% include "public/_form.html" with form=volunteer_form action=action_url submit_label="Register interest" %}
+    </div>
+  </div>
+</section>
+
+<section class="section-alt section" id="partner">
+  <div class="container split">
+    <div class="prose">
+      <span class="eyebrow">Partner with us</span>
+      <h2>{{ page.partner_heading }}</h2>
+      <p>{{ page.partner_body }}</p>
+    </div>
+    <div class="card">
+      {% url 'submissions:partnership_submit' as action_url %}
+      {% include "public/_form.html" with form=partnership_form action=action_url submit_label="Send proposal" %}
+    </div>
+  </div>
+</section>
+
+<section class="section" id="community">
+  <div class="container" style="text-align:center;max-width:640px;">
+    <h2>{{ page.community_heading }}</h2>
+    <p class="lead">{{ page.community_body }}</p>
+    <a href="{% url 'pages:newsletter' %}" class="btn btn-accent">Join the newsletter</a>
+  </div>
+</section>
+{% endblock %}

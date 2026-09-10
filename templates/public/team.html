@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Team &amp; Leadership — {{ site.organization_name }}{% endblock %}
+{% block meta_description %}Meet the team and leadership behind {{ site.organization_name }}'s work in South Sudan.{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title="Team &amp; Leadership" hero_subtitle="The people behind our work across South Sudan." %}
+
+{% if org.show_on_about and org.tiles %}
+<section class="section-alt section tight">
+  <div class="container">
+    <div class="section-head"><h2>{{ org.heading }}</h2>{% if org.intro %}<p>{{ org.intro }}</p>{% endif %}</div>
+    <div class="stat-grid">
+      {% for value, label in org.tiles %}
+        <div class="stat"><div class="value">{{ value }}</div><div class="label">{{ label }}</div></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if leadership %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>Leadership</h2></div>
+    <div class="grid grid-3">
+      {% for m in leadership %}
+        <div class="card card-feature">
+          {% if m.photo %}<img src="{{ m.photo.url }}" alt="{{ m.name }}" style="border-radius:12px;aspect-ratio:1;object-fit:cover;">{% endif %}
+          <h3 style="margin-top:0.75rem;">{{ m.name }}</h3>
+          <p style="color:var(--green);font-weight:600;">{{ m.role }}</p>
+          {% if m.qualifications %}<p class="news-meta">{{ m.qualifications }}</p>{% endif %}
+          {% if m.bio %}<p style="margin-top:0.5rem;">{{ m.bio }}</p>{% endif %}
+          <p class="tag-row" style="margin-top:0.5rem;">
+            {% if m.email %}<a class="chip" href="mailto:{{ m.email }}">Email</a>{% endif %}
+            {% if m.linkedin_url %}<a class="chip" href="{{ m.linkedin_url }}">LinkedIn</a>{% endif %}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if staff %}
+<section class="{% if leadership %}section-alt {% endif %}section">
+  <div class="container">
+    <div class="section-head"><h2>Our Team</h2></div>
+    <div class="grid grid-4">
+      {% for m in staff %}
+        <div class="card" style="text-align:center;">
+          {% if m.photo %}<img src="{{ m.photo.url }}" alt="{{ m.name }}" style="border-radius:12px;aspect-ratio:1;object-fit:cover;">{% endif %}
+          <h3 style="margin-top:0.75rem;">{{ m.name }}</h3>
+          <p>{{ m.role }}</p>
+          {% if m.qualifications %}<p class="news-meta">{{ m.qualifications }}</p>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if partners %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>Our Partners</h2><p>We work through partnerships that share our commitment to sustainable development.</p></div>
+    <div class="grid grid-3">
+      {% for p in partners %}
+        <div class="card">
+          {% if p.logo %}<img src="{{ p.logo.url }}" alt="{{ p.name }}" style="max-height:60px;width:auto;margin-bottom:0.75rem;">{% endif %}
+          <h3>{% if p.website_url %}<a href="{{ p.website_url }}">{{ p.name }}</a>{% else %}{{ p.name }}{% endif %}</h3>
+          {% if p.partnering_on %}<p class="news-meta">{{ p.partnering_on }}</p>{% endif %}
+          {% if p.blurb %}<p style="margin-top:0.4rem;">{{ p.blurb }}</p>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if not leadership and not staff %}
+<section class="section"><div class="container"><p class="lead" style="text-align:center;">Team profiles are coming soon.</p></div></section>
+{% endif %}
+{% endblock %}

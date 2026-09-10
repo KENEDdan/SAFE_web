@@ -1,0 +1,23 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Resource requests — Console{% endblock %}
+{% block console %}
+<h1>Resource requests</h1>
+<div class="card" style="overflow-x:auto;">
+  <table class="data-table">
+    <thead><tr><th>Contact</th><th>Location</th><th>Received</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      {% for r in requests %}
+      <tr>
+        <td>{{ r.name }}<br><small>{{ r.email }}</small></td>
+        <td>{{ r.location }}</td>
+        <td>{{ r.created_at|date:"j M Y" }}</td>
+        <td><span class="status-pill status-{{ r.status }}">{{ r.get_status_display }}</span></td>
+        <td><a href="{% url 'submissions:resource_request_detail' r.pk %}" class="btn btn-secondary btn-sm">Open</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5">No resource requests yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "manage/console_base.html" %}
+{% block title %}{{ mode }} {{ coll.verbose }} — Console{% endblock %}
+{% block console %}
+<h1>{{ mode }} {{ coll.verbose|lower }}</h1>
+<form method="post" enctype="multipart/form-data" class="card" style="max-width:720px;">
+  {% csrf_token %}
+  {% include "manage/_form_fields.html" %}
+  <button type="submit" class="btn btn-primary">Save</button>
+  <a href="{% url coll.list_url %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% comment %}Renders a public form. Expects: form, action (url), submit_label, optional next_value.{% endcomment %}
+<form method="post" action="{{ action }}" {% if form_multipart %}enctype="multipart/form-data"{% endif %}>
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ next_value|default:request.path }}">
+  {% for field in form %}
+    {% if field.name == 'website' %}
+      {{ field }}
+    {% elif field.is_hidden %}
+      {{ field }}
+    {% else %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+        {{ field.errors }}
+      </div>
+    {% endif %}
+  {% endfor %}
+  <button type="submit" class="btn btn-primary">{{ submit_label|default:"Submit" }}</button>
+</form>

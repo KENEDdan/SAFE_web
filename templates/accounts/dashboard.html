@@ -1,0 +1,75 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Dashboard — {{ site.organization_name }} Console{% endblock %}
+{% block console %}
+<div class="dashboard-header">
+  <div>
+    <h1>Welcome, {{ user.get_full_name|default:user.username }}</h1>
+    <span class="role-badge">{{ user.get_role_display }}</span>
+  </div>
+  <a href="{% url 'pages:home' %}" class="btn btn-secondary btn-sm">View website</a>
+</div>
+
+<p class="group-label">Needs attention</p>
+<div class="tile-grid">
+  <a class="tile" href="{% url 'submissions:inbox_list' 'contact' %}">
+    <h3>Contact inquiries</h3><p>Messages from the contact form.</p>
+    {% if counts.contact %}<span class="count">{{ counts.contact }} new</span>{% endif %}
+  </a>
+  <a class="tile" href="{% url 'submissions:resource_request_list' %}">
+    <h3>Resource requests</h3><p>Community requests awaiting review.</p>
+    {% if counts.resource_requests %}<span class="count">{{ counts.resource_requests }} pending</span>{% endif %}
+  </a>
+  <a class="tile" href="{% url 'submissions:donation_list' %}">
+    <h3>Donations</h3><p>Confirm proof of payment.</p>
+    {% if counts.donations %}<span class="count">{{ counts.donations }} pending</span>{% endif %}
+  </a>
+  <a class="tile" href="{% url 'submissions:inbox_list' 'partnerships' %}">
+    <h3>Partnership requests</h3><p>"Partner with us" submissions.</p>
+    {% if counts.partnerships %}<span class="count">{{ counts.partnerships }} new</span>{% endif %}
+  </a>
+  <a class="tile" href="{% url 'submissions:inbox_list' 'volunteers' %}">
+    <h3>Volunteer interest</h3><p>People offering their time.</p>
+    {% if counts.volunteers %}<span class="count">{{ counts.volunteers }} new</span>{% endif %}
+  </a>
+  <a class="tile" href="{% url 'content:manage_testimonials' %}">
+    <h3>Testimonials</h3><p>Unpublished community stories.</p>
+    {% if counts.testimonials %}<span class="count">{{ counts.testimonials }} draft</span>{% endif %}
+  </a>
+</div>
+
+<p class="group-label">Site &amp; pages</p>
+<div class="tile-grid">
+  <a class="tile" href="{% url 'pages:manage_site' %}"><h3>Site settings</h3><p>Logo, contact details, social links, SEO.</p></a>
+  <a class="tile" href="{% url 'pages:manage_org' %}"><h3>Organization profile</h3><p>Staff, field officers, volunteers, communities &amp; states covered.</p></a>
+  <a class="tile" href="{% url 'submissions:donation_settings' %}"><h3>Donation settings</h3><p>Bank / mobile-money details and instructions.</p></a>
+  <a class="tile" href="{% url 'pages:manage_page' 'home' %}"><h3>Home page</h3><p>Hero, section headings, calls to action.</p></a>
+  <a class="tile" href="{% url 'pages:manage_page' 'about' %}"><h3>About page</h3><p>Director's message, story, mission &amp; vision.</p></a>
+  <a class="tile" href="{% url 'pages:manage_page' 'what-we-do' %}"><h3>What We Do page</h3><p>Intro, approach, themes intro.</p></a>
+  <a class="tile" href="{% url 'pages:manage_page' 'impact' %}"><h3>Impact page</h3><p>Headings and intros for the impact page.</p></a>
+  <a class="tile" href="{% url 'pages:manage_page' 'resources' %}"><h3>Resources page</h3><p>Programme description, how-to-access text.</p></a>
+  <a class="tile" href="{% url 'pages:manage_page' 'get-involved' %}"><h3>Get Involved page</h3><p>Donate, volunteer, partner sections.</p></a>
+</div>
+
+<p class="group-label">Collections</p>
+<div class="tile-grid">
+  <a class="tile" href="{% url 'newsfeed:manage_list' %}"><h3>News &amp; updates</h3><p>{{ counts.news }} post(s) — feed, field stories, publications.</p></a>
+  <a class="tile" href="{% url 'content:manage_programs' %}"><h3>Programmes</h3><p>What We Do cards.</p></a>
+  <a class="tile" href="{% url 'content:manage_themes' %}"><h3>Cross-cutting themes</h3><p>GESI, safeguarding, etc.</p></a>
+  <a class="tile" href="{% url 'content:manage_projects' %}"><h3>Projects</h3><p>{{ counts.projects }} project(s), with galleries.</p></a>
+  <a class="tile" href="{% url 'content:manage_activities' %}"><h3>Activities</h3><p>{{ counts.activities }} activit(y/ies) — trainings, events, field work.</p></a>
+  <a class="tile" href="{% url 'content:manage_values' %}"><h3>Core values</h3><p>About-page values.</p></a>
+  <a class="tile" href="{% url 'content:manage_team' %}"><h3>Team &amp; leadership</h3><p>{{ counts.team }} member(s), {{ counts.leadership }} in leadership.</p></a>
+  <a class="tile" href="{% url 'content:manage_partners' %}"><h3>Partners</h3><p>{{ counts.partners }} partner(s) shown on the site.</p></a>
+  <a class="tile" href="{% url 'content:manage_stats' %}"><h3>Impact statistics</h3><p>Households reached, etc.</p></a>
+  <a class="tile" href="{% url 'content:manage_beneficiaries' %}"><h3>Target beneficiaries</h3><p>Who we aim to reach.</p></a>
+  <a class="tile" href="{% url 'content:manage_milestones' %}"><h3>Pathway milestones</h3><p>Pathway-to-change timeline.</p></a>
+  <a class="tile" href="{% url 'content:manage_gallery' %}"><h3>Gallery</h3><p>Photos across the site.</p></a>
+  <a class="tile" href="{% url 'content:manage_resources' %}"><h3>Resource catalogue</h3><p>Items available to communities.</p></a>
+</div>
+
+<p class="group-label">Administration</p>
+<div class="tile-grid">
+  <a class="tile" href="{% url 'accounts:account_list' %}"><h3>Staff accounts</h3><p>Add or deactivate console users.</p></a>
+  <a class="tile" href="{% url 'submissions:subscriber_list' %}"><h3>Newsletter</h3><p>{{ counts.subscribers }} subscriber(s) — export CSV.</p></a>
+</div>
+{% endblock %}

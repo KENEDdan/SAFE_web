@@ -1,0 +1,22 @@
+{% extends "manage/console_base.html" %}
+{% block title %}{{ label }} — Console{% endblock %}
+{% block console %}
+<h1>{{ label }}</h1>
+<div class="card" style="overflow-x:auto;">
+  <table class="data-table">
+    <thead><tr>{% for h in headers %}<th>{{ h }}</th>{% endfor %}<th>Received</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        {% for cell in row.cells %}<td>{{ cell|default:"—" }}</td>{% endfor %}
+        <td>{{ row.obj.created_at|date:"j M Y, H:i" }}</td>
+        <td>{% if row.obj.is_handled %}<span class="status-pill status-yes">Handled</span>{% else %}<span class="status-pill status-pending">Open</span>{% endif %}</td>
+        <td><a href="{% url 'submissions:inbox_detail' key row.obj.pk %}" class="btn btn-secondary btn-sm">Open</a></td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="{{ headers|length|add:3 }}">No submissions yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

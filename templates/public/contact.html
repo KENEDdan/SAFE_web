@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Contact — {{ site.organization_name }}{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title="Get in Touch" hero_subtitle="Contact SAFE to learn more about our programmes, partnerships, donations, or volunteer opportunities." %}
+
+<section class="section">
+  <div class="container split">
+    <div>
+      <span class="eyebrow">Contact Information</span>
+      <table class="data-table">
+        <tbody>
+          {% if site.address %}<tr><th>Address</th><td>{{ site.address }}</td></tr>{% endif %}
+          {% if site.phone_primary %}<tr><th>Phone</th><td>{{ site.phone_primary }}{% if site.phone_secondary %}, {{ site.phone_secondary }}{% endif %}</td></tr>{% endif %}
+          {% if site.contact_email %}<tr><th>Email</th><td><a href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a></td></tr>{% endif %}
+          {% if site.office_hours %}<tr><th>Office hours</th><td>{{ site.office_hours }}</td></tr>{% endif %}
+        </tbody>
+      </table>
+      <div class="social-row" style="margin-top:1rem;">
+        {% if site.facebook_url %}<a href="{{ site.facebook_url }}" style="background:var(--surface-2);color:var(--text);">f</a>{% endif %}
+        {% if site.twitter_url %}<a href="{{ site.twitter_url }}" style="background:var(--surface-2);color:var(--text);">x</a>{% endif %}
+        {% if site.linkedin_url %}<a href="{{ site.linkedin_url }}" style="background:var(--surface-2);color:var(--text);">in</a>{% endif %}
+        {% if site.whatsapp_link %}<a href="{{ site.whatsapp_link }}" style="background:var(--surface-2);color:var(--text);">wa</a>{% endif %}
+      </div>
+      {% if site.map_embed_url %}
+        <div class="video-embed" style="margin-top:1.25rem;"><iframe src="{{ site.map_embed_url }}" loading="lazy"></iframe></div>
+      {% endif %}
+    </div>
+    <div class="card">
+      <h3>Send us a message</h3>
+      {% url 'submissions:contact_submit' as action_url %}
+      {% include "public/_form.html" with form=form action=action_url submit_label="Send message" %}
+    </div>
+  </div>
+</section>
+{% endblock %}

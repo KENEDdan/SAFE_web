@@ -1,0 +1,11 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Site &amp; donation settings — Console{% endblock %}
+{% block console %}
+<h1>Donation settings</h1>
+<p class="lead">Bank / mobile-money details shown to donors on the Get Involved page, and the instructions they follow.</p>
+<form method="post" enctype="multipart/form-data" class="card" style="max-width:640px;">
+  {% csrf_token %}
+  {% include "manage/_form_fields.html" %}
+  <button type="submit" class="btn btn-primary">Save donation settings</button>
+</form>
+{% endblock %}

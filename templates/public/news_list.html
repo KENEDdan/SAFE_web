@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}News &amp; Updates — {{ site.organization_name }}{% endblock %}
+{% block meta_description %}Latest news, field stories, events, and publications from {{ site.organization_name }} across South Sudan.{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title="News &amp; Updates" hero_subtitle="The latest from our work across South Sudan — field stories, events, and publications." %}
+
+<section class="section">
+  <div class="container">
+    <div class="tag-row" style="margin-bottom:1.75rem;">
+      <a href="{% url 'newsfeed:post_list' %}" class="chip {% if not active_category %}active{% endif %}">All</a>
+      {% for value, label in categories %}
+        <a href="?category={{ value }}" class="chip {% if active_category == value %}active{% endif %}">{{ label }}</a>
+      {% endfor %}
+    </div>
+
+    {% if posts %}
+    <div class="grid grid-3">
+      {% for post in posts %}
+        <a class="media-card" href="{{ post.get_absolute_url }}">
+          <div class="thumb">
+            {% if post.thumbnail %}<img src="{{ post.thumbnail.url }}" alt="{{ post.title }}">
+            {% elif post.youtube_thumbnail_url %}<img src="{{ post.youtube_thumbnail_url }}" alt="{{ post.title }}">
+            {% endif %}
+          </div>
+          <div class="body">
+            <span class="pill">{{ post.get_category_display }}</span>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.brief_description }}</p>
+            <p class="news-meta">{{ post.created_at|date:"j M Y" }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p class="lead" style="text-align:center;">No posts yet — check back soon.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

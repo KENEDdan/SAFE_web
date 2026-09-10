@@ -1,0 +1,35 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Resource request — {{ object.name }}{% endblock %}
+{% block console %}
+<div class="toolbar">
+  <h1>{{ object.name }} — {{ object.location }}</h1>
+  <a href="{% url 'submissions:resource_request_list' %}" class="btn btn-secondary btn-sm">&larr; All requests</a>
+</div>
+<div class="card" style="max-width:720px;">
+  <table class="data-table">
+    <tbody>
+      <tr><th>Email</th><td><a href="mailto:{{ object.email }}">{{ object.email }}</a></td></tr>
+      <tr><th>Phone</th><td>{{ object.phone|default:"—" }}</td></tr>
+      <tr><th>Location</th><td>{{ object.location }}</td></tr>
+      <tr><th>Needs</th><td style="white-space:pre-line;">{{ object.resource_needed }}</td></tr>
+      <tr><th>Received</th><td>{{ object.created_at|date:"j M Y, H:i" }}</td></tr>
+    </tbody>
+  </table>
+  <form method="post" style="margin-top:1rem;">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select class="form-input" name="status" id="status">
+        {% for value, label in statuses %}
+          <option value="{{ value }}" {% if object.status == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="admin_notes">Internal notes</label>
+      <textarea class="form-input" name="admin_notes" id="admin_notes" rows="3">{{ object.admin_notes }}</textarea>
+    </div>
+    <button class="btn btn-primary">Update request</button>
+  </form>
+</div>
+{% endblock %}

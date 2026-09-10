@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}About — {{ site.organization_name }}{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title=page.hero_title hero_subtitle=page.hero_subtitle hero_image=page.hero_image %}
+
+<section class="section">
+  <div class="container split">
+    <div>
+      {% if page.director_photo %}<img src="{{ page.director_photo.url }}" alt="{{ page.director_name }}">{% endif %}
+    </div>
+    <div>
+      <span class="eyebrow">A message from our Director</span>
+      <div class="prose"><p>{{ page.director_message }}</p></div>
+      <p><strong>{{ page.director_name }}</strong><br><span class="lead">{{ page.director_role }}</span></p>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.story_heading }}</h2></div>
+    <div class="prose" style="margin:0 auto;"><p>{{ page.story_body }}</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container grid grid-2">
+    <div class="card card-feature"><h3>Our Mission</h3><p>{{ page.mission }}</p></div>
+    <div class="card card-accent"><h3>Our Vision</h3><p>{{ page.vision }}</p></div>
+  </div>
+</section>
+
+{% if values %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.values_heading }}</h2><p>{{ page.values_intro }}</p></div>
+    <div class="value-list">
+      {% for v in values %}
+        <div class="card">{% if v.icon %}<div class="icon-badge">{{ v.icon }}</div>{% endif %}<h3>{{ v.title }}</h3><p>{{ v.description }}</p></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if org.show_on_about and org.tiles %}
+<section class="section-alt section tight">
+  <div class="container">
+    <div class="section-head"><h2>{{ org.heading }}</h2>{% if org.intro %}<p>{{ org.intro }}</p>{% endif %}</div>
+    <div class="stat-grid">
+      {% for value, label in org.tiles %}
+        <div class="stat"><div class="value">{{ value }}</div><div class="label">{{ label }}</div></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if team %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.team_heading }}</h2><p>{{ page.team_intro }}</p></div>
+    <div class="grid grid-4">
+      {% for m in team %}
+        <div class="card" style="text-align:center;">
+          {% if m.photo %}<img src="{{ m.photo.url }}" alt="{{ m.name }}" style="border-radius:12px;aspect-ratio:1;object-fit:cover;">{% endif %}
+          <h3 style="margin-top:0.75rem;">{{ m.name }}</h3>
+          <p>{{ m.role }}</p>
+        </div>
+      {% endfor %}
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;"><a href="{% url 'content:team_list' %}" class="btn btn-outline btn-sm">Meet the whole team</a></p>
+  </div>
+</section>
+{% endif %}
+
+{% if partners %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>Our Partners</h2></div>
+    <div class="grid grid-4">
+      {% for p in partners %}
+        <div class="card" style="text-align:center;">
+          {% if p.logo %}<img src="{{ p.logo.url }}" alt="{{ p.name }}" style="max-height:56px;width:auto;">{% else %}<h3>{{ p.name }}</h3>{% endif %}
+          {% if p.logo %}<p style="margin-top:0.5rem;font-weight:600;">{{ p.name }}</p>{% endif %}
+          {% if p.partnering_on %}<p class="news-meta">{{ p.partnering_on }}</p>{% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if page.legal_profile %}
+<section class="section-alt section tight">
+  <div class="container prose" style="margin:0 auto;">
+    <h2>{{ page.legal_profile_heading }}</h2>
+    <p>{{ page.legal_profile }}</p>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

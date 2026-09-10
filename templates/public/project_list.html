@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Projects — {{ site.organization_name }}{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title="Our Projects" hero_subtitle="Showcasing our sustainable farming and community agriculture projects across South Sudan." %}
+
+<section class="section">
+  <div class="container">
+    {% if projects %}
+    <div class="grid grid-3">
+      {% for pr in projects %}
+        <a class="media-card" href="{% url 'content:project_detail' pr.slug %}">
+          <div class="thumb">{% if pr.thumbnail %}<img src="{{ pr.thumbnail.url }}" alt="{{ pr.title }}">{% endif %}</div>
+          <div class="body">
+            {% if pr.location %}<span class="pill">{{ pr.location }}</span>{% endif %}
+            <h3>{{ pr.title }}</h3>
+            <p>{{ pr.summary }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+    {% else %}
+      <p class="lead" style="text-align:center;">Project profiles are coming soon.</p>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ site.organization_name }} — {{ site.tagline }}{% endblock %}
+
+{% block content %}
+<section class="hero"
+  style="background-image: linear-gradient(rgba(15,61,34,.72), rgba(20,83,45,.78)), url('{% if page.hero_image %}{{ page.hero_image.url }}{% else %}{% static 'images/seed/hero.jpg' %}{% endif %}');">
+  <div class="hero-content">
+    <span class="eyebrow" style="color:#ffd9b0;">{{ site.tagline }}</span>
+    <h1>{{ page.hero_title }}</h1>
+    <p>{{ page.hero_subtitle }}</p>
+    <div class="hero-actions">
+      <a href="{{ page.hero_cta_url }}" class="btn btn-accent">{{ page.hero_cta_label }}</a>
+      {% if page.hero_secondary_label %}<a href="{{ page.hero_secondary_url }}" class="btn btn-outline" style="color:#fff;border-color:#fff;">{{ page.hero_secondary_label }}</a>{% endif %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container split">
+    <div>
+      <span class="eyebrow">{{ page.intro_heading }}</span>
+      <div class="prose"><p>{{ page.intro_body }}</p></div>
+      <a href="{% url 'pages:about' %}" class="btn btn-primary btn-sm">More about SAFE</a>
+    </div>
+    <div class="gallery">
+      {% for img in gallery|slice:":4" %}
+        <figure><img src="{{ img.image.url }}" alt="{{ img.caption }}"></figure>
+      {% empty %}
+        <figure><img src="{% static 'images/seed/photo-01.jpg' %}" alt=""></figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% if stats %}
+<section class="section-alt section tight">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.impact_heading }}</h2><p>{{ page.impact_intro }}</p></div>
+    <div class="stat-grid">
+      {% for s in stats %}
+        <div class="stat"><div class="value">{{ s.value }}</div><div class="label">{{ s.label }}</div></div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if programs %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.what_we_do_heading }}</h2><p>{{ page.what_we_do_intro }}</p></div>
+    <div class="grid grid-3">
+      {% for p in programs %}
+        <div class="card card-feature">
+          {% if p.icon %}<div class="icon-badge">{{ p.icon }}</div>{% endif %}
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.summary }}</p>
+        </div>
+      {% endfor %}
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;"><a href="{% url 'pages:what_we_do' %}" class="btn btn-outline btn-sm">See all our work</a></p>
+  </div>
+</section>
+{% endif %}
+
+{% if featured_projects %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.projects_heading }}</h2><p>{{ page.projects_intro }}</p></div>
+    <div class="grid grid-3">
+      {% for pr in featured_projects %}
+        <a class="media-card" href="{% url 'content:project_detail' pr.slug %}">
+          <div class="thumb">{% if pr.thumbnail %}<img src="{{ pr.thumbnail.url }}" alt="{{ pr.title }}">{% endif %}</div>
+          <div class="body">
+            {% if pr.location %}<span class="pill">{{ pr.location }}</span>{% endif %}
+            <h3>{{ pr.title }}</h3><p>{{ pr.summary }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;"><a href="{% url 'content:project_list' %}" class="btn btn-outline btn-sm">All projects</a></p>
+  </div>
+</section>
+{% endif %}
+
+{% if testimonials %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.testimonials_heading }}</h2><p>{{ page.testimonials_intro }}</p></div>
+    <div class="grid grid-3">
+      {% for t in testimonials %}
+        <div class="testimonial">
+          <blockquote>“{{ t.story }}”</blockquote>
+          <div class="who">{{ t.author }}<span>{{ t.role }}{% if t.location %} · {{ t.location }}{% endif %}</span></div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% if news %}
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>{{ page.news_heading }}</h2><p>{{ page.news_intro }}</p></div>
+    <div class="grid grid-3">
+      {% for post in news %}
+        <a class="media-card" href="{{ post.get_absolute_url }}">
+          <div class="thumb">
+            {% if post.thumbnail %}<img src="{{ post.thumbnail.url }}" alt="{{ post.title }}">
+            {% elif post.youtube_thumbnail_url %}<img src="{{ post.youtube_thumbnail_url }}" alt="{{ post.title }}">{% endif %}
+          </div>
+          <div class="body">
+            <span class="pill">{{ post.get_category_display }}</span>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.brief_description }}</p>
+            <p class="news-meta">{{ post.created_at|date:"j M Y" }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+    <p style="text-align:center;margin-top:1.5rem;"><a href="{% url 'newsfeed:post_list' %}" class="btn btn-outline btn-sm">All news &amp; updates</a></p>
+  </div>
+</section>
+{% endif %}
+
+<section class="section-alt section">
+  <div class="container" style="text-align:center;max-width:720px;">
+    <h2>{{ page.cta_heading }}</h2>
+    <p class="lead">{{ page.cta_body }}</p>
+    <a href="{{ page.cta_button_url }}" class="btn btn-accent">{{ page.cta_button_label }}</a>
+  </div>
+</section>
+{% endblock %}

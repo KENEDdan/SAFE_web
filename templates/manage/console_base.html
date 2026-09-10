@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="console">
+  <aside class="console-side">
+    <h4>Overview</h4>
+    <a href="{% url 'accounts:dashboard' %}">Dashboard</a>
+
+    <h4>Site &amp; Pages</h4>
+    <a href="{% url 'pages:manage_site' %}">Site settings</a>
+    <a href="{% url 'pages:manage_org' %}">Organization profile</a>
+    <a href="{% url 'submissions:donation_settings' %}">Donation settings</a>
+    <a href="{% url 'pages:manage_page' 'home' %}">Home page</a>
+    <a href="{% url 'pages:manage_page' 'about' %}">About page</a>
+    <a href="{% url 'pages:manage_page' 'what-we-do' %}">What We Do page</a>
+    <a href="{% url 'pages:manage_page' 'impact' %}">Impact page</a>
+    <a href="{% url 'pages:manage_page' 'resources' %}">Resources page</a>
+    <a href="{% url 'pages:manage_page' 'get-involved' %}">Get Involved page</a>
+
+    <h4>Collections</h4>
+    <a href="{% url 'newsfeed:manage_list' %}">News &amp; updates</a>
+    <a href="{% url 'newsfeed:content_calendar' %}">Content calendar</a>
+    <a href="{% url 'content:manage_programs' %}">Programmes</a>
+    <a href="{% url 'content:manage_themes' %}">Cross-cutting themes</a>
+    <a href="{% url 'content:manage_projects' %}">Projects</a>
+    <a href="{% url 'content:manage_activities' %}">Activities</a>
+    <a href="{% url 'content:manage_values' %}">Core values</a>
+    <a href="{% url 'content:manage_team' %}">Team &amp; leadership</a>
+    <a href="{% url 'content:manage_partners' %}">Partners</a>
+    <a href="{% url 'content:manage_stats' %}">Impact statistics</a>
+    <a href="{% url 'content:manage_beneficiaries' %}">Target beneficiaries</a>
+    <a href="{% url 'content:manage_milestones' %}">Pathway milestones</a>
+    <a href="{% url 'content:manage_testimonials' %}">Testimonials</a>
+    <a href="{% url 'content:manage_gallery' %}">Gallery</a>
+    <a href="{% url 'content:manage_resources' %}">Resource catalogue</a>
+
+    <h4>Inboxes</h4>
+    <a href="{% url 'submissions:inbox_list' 'contact' %}">Contact inquiries</a>
+    <a href="{% url 'submissions:resource_request_list' %}">Resource requests</a>
+    <a href="{% url 'submissions:donation_list' %}">Donations</a>
+    <a href="{% url 'submissions:inbox_list' 'partnerships' %}">Partnership requests</a>
+    <a href="{% url 'submissions:inbox_list' 'volunteers' %}">Volunteer interest</a>
+    <a href="{% url 'submissions:subscriber_list' %}">Newsletter subscribers</a>
+
+    <h4>Administration</h4>
+    <a href="{% url 'accounts:account_list' %}">Staff accounts</a>
+    <a href="{% url 'accounts:password_change' %}">Change my password</a>
+    <form method="post" action="{% url 'accounts:logout' %}" style="margin-top:0.5rem;">
+      {% csrf_token %}<button type="submit" class="btn btn-secondary btn-sm btn-block">Log out</button>
+    </form>
+  </aside>
+
+  <div class="console-main">
+    {% block console %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

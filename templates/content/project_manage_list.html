@@ -1,0 +1,31 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Projects — Console{% endblock %}
+{% block console %}
+<div class="toolbar">
+  <h1>Projects</h1>
+  <a href="{% url 'content:projects_create' %}" class="btn btn-primary btn-sm">+ Add project</a>
+</div>
+<div class="card" style="overflow-x:auto;">
+  <table class="data-table">
+    <thead><tr><th>Title</th><th>Location</th><th>Status</th><th>Featured</th><th>Published</th><th></th></tr></thead>
+    <tbody>
+      {% for p in objects %}
+      <tr>
+        <td>{{ p.title }}</td>
+        <td>{{ p.location|default:"—" }}</td>
+        <td>{{ p.get_status_display }}</td>
+        <td>{% if p.is_featured %}<span class="status-pill status-yes">Yes</span>{% else %}<span class="status-pill status-no">No</span>{% endif %}</td>
+        <td>{% if p.is_published %}<span class="status-pill status-yes">Yes</span>{% else %}<span class="status-pill status-no">No</span>{% endif %}</td>
+        <td style="white-space:nowrap;">
+          <a href="{{ p.get_absolute_url }}" class="btn btn-outline btn-sm" target="_blank">View</a>
+          <a href="{% url 'content:projects_edit' p.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+          <a href="{% url 'content:projects_delete' p.pk %}" class="btn btn-outline btn-sm">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="6">No projects yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

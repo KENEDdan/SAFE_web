@@ -1,0 +1,37 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Staff Accounts — Console{% endblock %}
+{% block console %}
+<div class="toolbar">
+  <h1>Staff accounts</h1>
+  <a href="{% url 'accounts:account_create' %}" class="btn btn-primary btn-sm">+ Add account</a>
+</div>
+<div class="card" style="overflow-x:auto;">
+  <table class="data-table">
+    <thead><tr><th>Username</th><th>Name</th><th>Email</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      {% for a in accounts %}
+      <tr>
+        <td>{{ a.username }}{% if a.is_superuser %} <span class="status-pill status-yes">superuser</span>{% endif %}</td>
+        <td>{{ a.get_full_name|default:"—" }}</td>
+        <td>{{ a.email|default:"—" }}</td>
+        <td>
+          {% if a.is_active %}<span class="status-pill status-yes">Active</span>
+          {% else %}<span class="status-pill status-rejected">Inactive</span>{% endif %}
+        </td>
+        <td style="white-space:nowrap;">
+          <form method="post" action="{% url 'accounts:account_toggle_active' a.pk %}" style="display:inline;">
+            {% csrf_token %}
+            <button class="btn btn-secondary btn-sm" {% if a == user %}disabled{% endif %}>
+              {% if a.is_active %}Deactivate{% else %}Activate{% endif %}
+            </button>
+          </form>
+          <a href="{% url 'accounts:account_reset_password' a.pk %}" class="btn btn-outline btn-sm">Reset password</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5">No accounts yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

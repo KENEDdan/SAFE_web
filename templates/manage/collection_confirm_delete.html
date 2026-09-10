@@ -1,0 +1,13 @@
+{% extends "manage/console_base.html" %}
+{% block title %}Delete {{ coll.verbose }} — Console{% endblock %}
+{% block console %}
+<h1>Delete {{ coll.verbose|lower }}</h1>
+<div class="card" style="max-width:520px;">
+  <p>Delete <strong>{{ object }}</strong>? This can't be undone.</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url coll.list_url %}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

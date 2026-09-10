@@ -1,0 +1,14 @@
+{% extends "manage/console_base.html" %}
+{% block title %}{{ label }} content — Console{% endblock %}
+{% block console %}
+<div class="toolbar">
+  <h1>{{ label }} content</h1>
+  <a href="{% url 'pages:home' %}" class="btn btn-secondary btn-sm" target="_blank">Preview site</a>
+</div>
+<p class="lead">These fields fill the fixed text of the page. Repeating items (programmes, stats, testimonials, gallery photos, …) are edited under <strong>Collections</strong>.</p>
+<form method="post" enctype="multipart/form-data" class="card" style="max-width:760px;">
+  {% csrf_token %}
+  {% include "manage/_form_fields.html" %}
+  <button type="submit" class="btn btn-primary">Save changes</button>
+</form>
+{% endblock %}

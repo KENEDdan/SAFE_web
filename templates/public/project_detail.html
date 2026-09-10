@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}{{ project.title }} — {{ site.organization_name }}{% endblock %}
+{% block meta_description %}{{ project.summary }}{% endblock %}
+{% block content %}
+{% include "public/_hero.html" with hero_title=project.title hero_subtitle=project.summary hero_image=project.thumbnail %}
+
+<section class="section">
+  <div class="container">
+    <div class="tag-row" style="margin-bottom:1.25rem;">
+      {% if project.location %}<span class="chip">📍 {{ project.location }}</span>{% endif %}
+      <span class="chip">{{ project.get_status_display }}</span>
+    </div>
+    {% if project.body %}<div class="prose"><p>{{ project.body }}</p></div>{% endif %}
+
+    {% if project.outcome_list %}
+      <h3>Outcomes</h3>
+      <ul class="bullet-list">{% for o in project.outcome_list %}<li>{{ o }}</li>{% endfor %}</ul>
+    {% endif %}
+
+    {% if project.images.all %}
+      <h3 style="margin-top:2rem;">Gallery</h3>
+      <div class="gallery">
+        {% for img in project.images.all %}
+          <figure><img src="{{ img.image.url }}" alt="{{ img.caption }}">{% if img.caption %}<figcaption class="helptext">{{ img.caption }}</figcaption>{% endif %}</figure>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% if others %}
+<section class="section-alt section">
+  <div class="container">
+    <div class="section-head"><h2>More projects</h2></div>
+    <div class="grid grid-3">
+      {% for pr in others %}
+        <a class="media-card" href="{% url 'content:project_detail' pr.slug %}">
+          <div class="thumb">{% if pr.thumbnail %}<img src="{{ pr.thumbnail.url }}" alt="{{ pr.title }}">{% endif %}</div>
+          <div class="body"><h3>{{ pr.title }}</h3><p>{{ pr.summary }}</p></div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

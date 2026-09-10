@@ -1,0 +1,19 @@
+{% extends "manage/console_base.html" %}
+{% block title %}{{ mode }} Account — Console{% endblock %}
+{% block console %}
+<h1>{{ mode }} staff account</h1>
+<p class="lead">A temporary password is generated and emailed to the address you enter. The person is asked to change it on first login.</p>
+<form method="post" class="card" style="max-width:640px;">
+  {% csrf_token %}
+  {% for field in form %}
+    <div class="form-group">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {{ field }}
+      {% if field.help_text %}<span class="helptext">{{ field.help_text }}</span>{% endif %}
+      {{ field.errors }}
+    </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-primary">Create account</button>
+  <a href="{% url 'accounts:account_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "manage/console_base.html" %}
+{% block title %}{{ coll.verbose_plural }} — Console{% endblock %}
+{% block console %}
+<div class="toolbar">
+  <h1>{{ coll.verbose_plural }}</h1>
+  <a href="{% url coll.create_url %}" class="btn btn-primary btn-sm">+ Add {{ coll.verbose|lower }}</a>
+</div>
+<div class="card" style="overflow-x:auto;">
+  <table class="data-table">
+    <thead><tr>{% for h in headers %}<th>{{ h }}</th>{% endfor %}<th></th></tr></thead>
+    <tbody>
+      {% for row in rows %}
+      <tr>
+        {% for cell in row.cells %}
+          <td>
+            {% if cell is True %}<span class="status-pill status-yes">Yes</span>
+            {% elif cell is False %}<span class="status-pill status-no">No</span>
+            {% else %}{{ cell|default:"—" }}{% endif %}
+          </td>
+        {% endfor %}
+        <td style="white-space:nowrap;">
+          <a href="{% url coll.edit_url row.obj.pk %}" class="btn btn-secondary btn-sm">Edit</a>
+          <a href="{% url coll.delete_url row.obj.pk %}" class="btn btn-outline btn-sm">Delete</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="{{ headers|length|add:1 }}">Nothing here yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<p class="helptext" style="margin-top:1rem;">Lower “display order” values appear first on the website. Unpublished items are hidden from the public site.</p>
+{% endblock %}

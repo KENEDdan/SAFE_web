@@ -1,0 +1,83 @@
+{% extends "manage/console_base.html" %}
+{% block title %}{{ mode }} news post — Console{% endblock %}
+{% block console %}
+<h1>{{ mode }} news post</h1>
+<form method="post" enctype="multipart/form-data" class="card" style="max-width:780px;">
+  {% csrf_token %}
+
+  <div class="form-group">
+    <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+    {{ form.title }} {{ form.title.errors }}
+  </div>
+  <div class="form-grid">
+    <div class="form-group"><label for="{{ form.category.id_for_label }}">{{ form.category.label }}</label>{{ form.category }} {{ form.category.errors }}</div>
+    <div class="form-group"><label for="{{ form.scheduled_for.id_for_label }}">{{ form.scheduled_for.label }}</label>{{ form.scheduled_for }} <span class="helptext">{{ form.scheduled_for.help_text }}</span></div>
+    <div class="form-group"><label for="{{ form.display_until.id_for_label }}">{{ form.display_until.label }}</label>{{ form.display_until }} <span class="helptext">{{ form.display_until.help_text }}</span></div>
+  </div>
+  <div class="form-group">
+    <label for="{{ form.brief_description.id_for_label }}">{{ form.brief_description.label }}</label>
+    {{ form.brief_description }} <span class="helptext">{{ form.brief_description.help_text }}</span> {{ form.brief_description.errors }}
+  </div>
+  <div class="form-group">
+    <label for="{{ form.body.id_for_label }}">{{ form.body.label }}</label>
+    {{ form.body }} {{ form.body.errors }}
+  </div>
+
+  <h3 style="margin-top:1.5rem;">Preview media</h3>
+  <div class="form-grid">
+    <div class="form-group"><label for="{{ form.thumbnail.id_for_label }}">{{ form.thumbnail.label }}</label>{{ form.thumbnail }} {{ form.thumbnail.errors }}</div>
+    <div class="form-group"><label for="{{ form.youtube_url.id_for_label }}">{{ form.youtube_url.label }}</label>{{ form.youtube_url }} {{ form.youtube_url.errors }}</div>
+  </div>
+  <div class="form-group">
+    <label for="{{ form.document.id_for_label }}">{{ form.document.label }}</label>
+    {{ form.document }}
+    <span class="helptext" id="doc-hint">{{ form.document.help_text }}</span>
+    {% if object.document %}<p class="helptext">Current: <a href="{{ object.document.url }}" target="_blank">{{ object.document.name }}</a></p>{% endif %}
+    {{ form.document.errors }}
+  </div>
+  <div class="form-group">
+    <label style="font-weight:400;">{{ form.is_published }} {{ form.is_published.label }}</label>
+  </div>
+
+  <h3 style="margin-top:1.5rem;">Gallery (extra images / videos)</h3>
+  {{ formset.management_form }}
+  <div id="formset-rows">
+    {% for f in formset %}
+      <div class="formset-row">
+        {% for field in f.visible_fields %}
+          <div class="form-group"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }} {{ field.errors }}</div>
+        {% endfor %}
+        {% for hidden in f.hidden_fields %}{{ hidden }}{% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+  <template id="empty-form-template">
+    <div class="formset-row">
+      {% for field in formset.empty_form.visible_fields %}
+        <div class="form-group"><label>{{ field.label }}</label>{{ field }}</div>
+      {% endfor %}
+    </div>
+  </template>
+  <button type="button" class="btn btn-secondary btn-sm" data-formset-add>+ Add another gallery row</button>
+
+  <div style="margin-top:1.5rem;">
+    <button type="submit" class="btn btn-primary">Save post</button>
+    <a href="{% url 'newsfeed:manage_list' %}" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  (function () {
+    var required = ["press_statement", "publication"];
+    var cat = document.getElementById("{{ form.category.id_for_label }}");
+    var hint = document.getElementById("doc-hint");
+    function sync() {
+      if (!cat || !hint) return;
+      hint.style.color = required.indexOf(cat.value) !== -1 ? "var(--danger)" : "";
+    }
+    if (cat) { cat.addEventListener("change", sync); sync(); }
+  })();
+</script>
+{% endblock %}

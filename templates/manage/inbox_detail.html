@@ -1,0 +1,51 @@
+{% extends "manage/console_base.html" %}
+{% block title %}{{ label }} — {{ object }}{% endblock %}
+{% block console %}
+<div class="toolbar">
+  <h1>{{ object }}</h1>
+  <a href="{% url 'submissions:inbox_list' key %}" class="btn btn-secondary btn-sm">&larr; All {{ label|lower }}</a>
+</div>
+
+<div class="card" style="max-width:720px;">
+  <table class="data-table">
+    <tbody>
+      {% if key == 'contact' %}
+        <tr><th>Name</th><td>{{ object.name }}</td></tr>
+        <tr><th>Email</th><td><a href="mailto:{{ object.email }}">{{ object.email }}</a></td></tr>
+        <tr><th>Phone</th><td>{{ object.phone|default:"—" }}</td></tr>
+        <tr><th>Type</th><td>{{ object.get_inquiry_type_display }}</td></tr>
+        <tr><th>Subject</th><td>{{ object.subject|default:"—" }}</td></tr>
+        <tr><th>Message</th><td style="white-space:pre-line;">{{ object.message }}</td></tr>
+      {% elif key == 'partnerships' %}
+        <tr><th>Organization</th><td>{{ object.organization_name }}</td></tr>
+        <tr><th>Contact person</th><td>{{ object.contact_person }}</td></tr>
+        <tr><th>Email</th><td><a href="mailto:{{ object.email }}">{{ object.email }}</a></td></tr>
+        <tr><th>Phone</th><td>{{ object.phone|default:"—" }}</td></tr>
+        <tr><th>Proposal</th><td style="white-space:pre-line;">{{ object.proposal }}</td></tr>
+      {% elif key == 'volunteers' %}
+        <tr><th>Name</th><td>{{ object.name }}</td></tr>
+        <tr><th>Email</th><td><a href="mailto:{{ object.email }}">{{ object.email }}</a></td></tr>
+        <tr><th>Phone</th><td>{{ object.phone|default:"—" }}</td></tr>
+        <tr><th>Skills</th><td>{{ object.skills|default:"—" }}</td></tr>
+        <tr><th>Interest</th><td style="white-space:pre-line;">{{ object.interest }}</td></tr>
+      {% endif %}
+      <tr><th>Received</th><td>{{ object.created_at|date:"j M Y, H:i" }}</td></tr>
+    </tbody>
+  </table>
+
+  <form method="post" style="margin-top:1rem;">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="admin_notes">Internal notes</label>
+      <textarea class="form-input" name="admin_notes" id="admin_notes" rows="3">{{ object.admin_notes }}</textarea>
+    </div>
+    {% if object.is_handled %}
+      <p>Handled{% if object.handled_by %} by {{ object.handled_by }}{% endif %}{% if object.handled_at %} on {{ object.handled_at|date:"j M Y" }}{% endif %}.</p>
+      <button name="mark_open" class="btn btn-secondary">Re-open</button>
+    {% else %}
+      <button name="mark_handled" class="btn btn-primary">Mark handled</button>
+    {% endif %}
+    <button class="btn btn-outline">Save notes</button>
+  </form>
+</div>
+{% endblock %}
