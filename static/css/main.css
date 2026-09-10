@@ -71,9 +71,9 @@ h1, h2, h3, h4 { line-height: 1.2; color: var(--text); }
 }
 .brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; min-width: 0; }
 .brand img { height: clamp(32px, 3.5vw + 16px, 46px); width: auto; flex: none; }
-.brand-name { font-weight: 800; font-size: clamp(0.9rem, 0.6vw + 0.78rem, 1.15rem); letter-spacing: 0.02em; min-width: 0; }
-.brand-name span {
-  display: block; color: var(--green); font-weight: 600; font-size: 0.72em; letter-spacing: 0;
+.brand-name { font-weight: 800; font-size: clamp(0.9rem, 0.6vw + 0.78rem, 1.15rem); letter-spacing: 0.02em; min-width: 0; display: flex; flex-direction: column; }
+.brand-name .brand-tagline {
+  color: var(--green); font-weight: 600; font-size: 0.72em; letter-spacing: 0;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
@@ -87,7 +87,7 @@ h1, h2, h3, h4 { line-height: 1.2; color: var(--text); }
 /* Tablet & phone: the desktop nav is already hidden — keep the top bar to one
    tidy row by trimming the wordmark tagline and the toggle labels. */
 @media (max-width: 1023px) {
-  .brand-name span { display: none; }
+  .brand-name .brand-tagline { display: none; }
 }
 @media (max-width: 600px) {
   .nav-actions { gap: 0.3rem; }
@@ -131,13 +131,27 @@ h1, h2, h3, h4 { line-height: 1.2; color: var(--text); }
 .lang-menu button:hover { background: var(--surface-2); }
 .lang-menu button.active { color: var(--green); font-weight: 700; }
 
-/* Hide Google Translate's own UI — the engine still runs, driven by our menu */
-#google_translate_element, .goog-te-gadget, .goog-te-banner-frame,
-.skiptranslate iframe, #goog-gt-tt, .goog-te-balloon-frame, .goog-tooltip {
+/* Hide Google Translate's own UI — the engine still runs, driven by our menu.
+   The widget host is moved off-screen rather than display:none'd, because
+   display:none makes Google re-inject a visible fallback combo. */
+#google_translate_element {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+.goog-te-banner-frame, .goog-te-banner-frame.skiptranslate,
+iframe.skiptranslate, .goog-te-gadget-icon, .goog-te-balloon-frame,
+#goog-gt-tt, .goog-tooltip, .goog-tooltip:hover {
   display: none !important;
+  visibility: hidden !important;
 }
 .goog-text-highlight { background: none !important; box-shadow: none !important; }
 body { top: 0 !important; position: static !important; }
+#google_translate_element .skiptranslate,
+#google_translate_element .goog-te-gadget { font-size: 0 !important; }
 
 /* ---------- Buttons ---------- */
 .btn {
