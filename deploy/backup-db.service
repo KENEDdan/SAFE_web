@@ -1,0 +1,6 @@
+[Unit]
+Description=Nightly Postgres dump for SAFE
+
+[Service]
+Type=oneshot
+ExecStart=/opt/safe/deploy/backup-db.sh
