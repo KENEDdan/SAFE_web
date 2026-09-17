@@ -18,6 +18,7 @@ needed to update the site.
 | `core` | `SiteSettings` singleton (logo, contact, socials, SEO), validators, `seed_safe` command |
 | `pages` | Six one-row page models (Home, About, What We Do, Impact, Resources, Get Involved) + their console editors |
 | `content` | Collections: programmes, cross-cutting themes, projects (+ galleries), core values, team, impact stats, target beneficiaries, milestones, testimonials, gallery, resource catalogue |
+| `newsfeed` | News feed posts by category (update, news, field story, event, press statement, publication, job) with thumbnail / YouTube / PDF, per-post gallery, and publish scheduling (`scheduled_for` / `display_until`) |
 | `submissions` | Public form inboxes: contact, partnership, volunteer, resource request, donations (+ bank settings), newsletter |
 
 ## Local setup
