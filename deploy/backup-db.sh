@@ -13,9 +13,10 @@ OUT="$BACKUP_DIR/safe_db_$STAMP.sql.gz"
 mkdir -p "$BACKUP_DIR"
 
 cd "$COMPOSE_DIR"
-set -a
-source .env
-set +a
+# Read only the two values we need — .env isn't safe to `source` as a whole
+# (other values, e.g. DEFAULT_FROM_EMAIL, contain shell-special characters).
+POSTGRES_USER="$(grep -m1 '^POSTGRES_USER=' .env | cut -d= -f2-)"
+POSTGRES_DB="$(grep -m1 '^POSTGRES_DB=' .env | cut -d= -f2-)"
 
 docker compose exec -T db pg_dump -U "$POSTGRES_USER" "$POSTGRES_DB" | gzip > "$OUT"
 
