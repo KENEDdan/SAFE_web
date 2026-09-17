@@ -34,9 +34,16 @@
 <section class="section-alt section">
   <div class="container">
     <div class="section-head"><h2>{{ page.values_heading }}</h2><p>{{ page.values_intro }}</p></div>
-    <div class="value-list">
+    <div class="tile-grid">
       {% for v in values %}
-        <div class="card">{% if v.icon %}<div class="icon-badge">{{ v.icon }}</div>{% endif %}<h3>{{ v.title }}</h3><p>{{ v.description }}</p></div>
+        <details class="tile">
+          <summary class="tile-summary">
+            {% if v.icon %}<span class="tile-icon">{{ v.icon }}</span>{% endif %}
+            <span class="tile-heading">{{ v.title }}<span class="tile-teaser">{{ v.description|truncatechars:70 }}</span></span>
+            <span class="tile-chevron" aria-hidden="true">›</span>
+          </summary>
+          <div class="tile-body"><p>{{ v.description }}</p></div>
+        </details>
       {% endfor %}
     </div>
   </div>

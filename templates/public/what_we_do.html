@@ -11,13 +11,16 @@
 <section class="section-alt section">
   <div class="container">
     <div class="section-head"><h2>{{ page.programs_heading }}</h2></div>
-    <div class="grid grid-2">
+    <div class="tile-grid">
       {% for p in programs %}
-        <div class="card card-feature">
-          {% if p.icon %}<div class="icon-badge">{{ p.icon }}</div>{% endif %}
-          <h3>{{ p.title }}</h3>
-          <p>{{ p.description|default:p.summary }}</p>
-        </div>
+        <details class="tile">
+          <summary class="tile-summary">
+            {% if p.icon %}<span class="tile-icon">{{ p.icon }}</span>{% endif %}
+            <span class="tile-heading">{{ p.title }}<span class="tile-teaser">{{ p.summary }}</span></span>
+            <span class="tile-chevron" aria-hidden="true">›</span>
+          </summary>
+          <div class="tile-body"><p>{{ p.description|default:p.summary }}</p></div>
+        </details>
       {% endfor %}
     </div>
   </div>
@@ -35,9 +38,15 @@
 <section class="section-alt section">
   <div class="container">
     <div class="section-head"><h2>{{ page.themes_heading }}</h2><p>{{ page.themes_intro }}</p></div>
-    <div class="grid grid-3">
+    <div class="tile-grid">
       {% for t in themes %}
-        <div class="card card-accent"><h3>{{ t.title }}</h3><p>{{ t.description }}</p></div>
+        <details class="tile">
+          <summary class="tile-summary">
+            <span class="tile-heading">{{ t.title }}<span class="tile-teaser">{{ t.description|truncatechars:70 }}</span></span>
+            <span class="tile-chevron" aria-hidden="true">›</span>
+          </summary>
+          <div class="tile-body"><p>{{ t.description }}</p></div>
+        </details>
       {% endfor %}
     </div>
   </div>
