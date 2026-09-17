@@ -18,7 +18,7 @@ cd "$COMPOSE_DIR"
 POSTGRES_USER="$(grep -m1 '^POSTGRES_USER=' .env | cut -d= -f2-)"
 POSTGRES_DB="$(grep -m1 '^POSTGRES_DB=' .env | cut -d= -f2-)"
 
-docker compose exec -T db pg_dump -U "$POSTGRES_USER" "$POSTGRES_DB" | gzip > "$OUT"
+docker compose exec -T db pg_dump --no-owner --no-privileges -U "$POSTGRES_USER" "$POSTGRES_DB" | gzip > "$OUT"
 
 find "$BACKUP_DIR" -name 'safe_db_*.sql.gz' -mtime "+$RETENTION_DAYS" -delete
 
