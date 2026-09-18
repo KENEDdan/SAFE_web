@@ -20,7 +20,7 @@
             <span class="tile-chevron" aria-hidden="true">›</span>
           </summary>
           <div class="tile-body">
-            {% if p.image %}<img class="tile-image" src="{{ p.image.url }}" alt="{{ p.title }}">{% endif %}
+            {% if p.image %}<img class="tile-image js-lightbox" src="{{ p.image.url }}" alt="{{ p.title }}">{% endif %}
             <p>{{ p.description|default:p.summary }}</p>
             {% if p.related_projects %}
               <div class="tile-related">

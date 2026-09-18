@@ -25,9 +25,9 @@
     </div>
     <div class="gallery">
       {% for img in gallery|slice:":4" %}
-        <figure><img src="{{ img.image.url }}" alt="{{ img.caption }}"></figure>
+        <figure><img class="js-lightbox" src="{{ img.image.url }}" alt="{{ img.caption }}"></figure>
       {% empty %}
-        <figure><img src="{% static 'images/seed/photo-01.jpg' %}" alt=""></figure>
+        <figure><img class="js-lightbox" src="{% static 'images/seed/photo-01.jpg' %}" alt=""></figure>
       {% endfor %}
     </div>
   </div>

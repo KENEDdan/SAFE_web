@@ -16,7 +16,7 @@
     {% if activity.youtube_embed_url %}
       <div class="video-embed"><iframe src="{{ activity.youtube_embed_url }}" allowfullscreen></iframe></div>
     {% elif activity.thumbnail %}
-      <img src="{{ activity.thumbnail.url }}" alt="{{ activity.title }}" style="width:100%;border-radius:14px;margin:1rem 0;">
+      <img class="js-lightbox" src="{{ activity.thumbnail.url }}" alt="{{ activity.title }}" style="width:100%;border-radius:14px;margin:1rem 0;">
     {% endif %}
 
     <div class="article-body">{{ activity.body|linebreaks }}</div>
@@ -25,7 +25,7 @@
       <h3 style="margin-top:2rem;">Gallery</h3>
       <div class="gallery">
         {% for img in activity.images.all %}
-          <figure><img src="{{ img.image.url }}" alt="{{ img.caption }}">{% if img.caption %}<figcaption class="helptext">{{ img.caption }}</figcaption>{% endif %}</figure>
+          <figure><img class="js-lightbox" src="{{ img.image.url }}" alt="{{ img.caption }}">{% if img.caption %}<figcaption class="helptext">{{ img.caption }}</figcaption>{% endif %}</figure>
         {% endfor %}
       </div>
     {% endif %}

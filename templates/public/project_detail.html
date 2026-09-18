@@ -21,7 +21,7 @@
       <h3 style="margin-top:2rem;">Gallery</h3>
       <div class="gallery">
         {% for img in project.images.all %}
-          <figure><img src="{{ img.image.url }}" alt="{{ img.caption }}">{% if img.caption %}<figcaption class="helptext">{{ img.caption }}</figcaption>{% endif %}</figure>
+          <figure><img class="js-lightbox" src="{{ img.image.url }}" alt="{{ img.caption }}">{% if img.caption %}<figcaption class="helptext">{{ img.caption }}</figcaption>{% endif %}</figure>
         {% endfor %}
       </div>
     {% endif %}

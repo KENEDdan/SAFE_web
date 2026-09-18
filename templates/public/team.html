@@ -24,7 +24,7 @@
     <div class="grid grid-3">
       {% for m in leadership %}
         <div class="card card-feature">
-          {% if m.photo %}<img src="{{ m.photo.url }}" alt="{{ m.name }}" style="border-radius:12px;aspect-ratio:1;object-fit:cover;">{% endif %}
+          {% if m.photo %}<img class="js-lightbox" src="{{ m.photo.url }}" alt="{{ m.name }}" style="border-radius:12px;aspect-ratio:1;object-fit:cover;">{% endif %}
           <h3 style="margin-top:0.75rem;">{{ m.name }}</h3>
           <p style="color:var(--green);font-weight:600;">{{ m.role }}</p>
           {% if m.qualifications %}<p class="news-meta">{{ m.qualifications }}</p>{% endif %}
@@ -47,7 +47,7 @@
     <div class="grid grid-4">
       {% for m in staff %}
         <div class="card" style="text-align:center;">
-          {% if m.photo %}<img src="{{ m.photo.url }}" alt="{{ m.name }}" style="border-radius:12px;aspect-ratio:1;object-fit:cover;">{% endif %}
+          {% if m.photo %}<img class="js-lightbox" src="{{ m.photo.url }}" alt="{{ m.name }}" style="border-radius:12px;aspect-ratio:1;object-fit:cover;">{% endif %}
           <h3 style="margin-top:0.75rem;">{{ m.name }}</h3>
           <p>{{ m.role }}</p>
           {% if m.qualifications %}<p class="news-meta">{{ m.qualifications }}</p>{% endif %}

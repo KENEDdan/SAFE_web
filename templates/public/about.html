@@ -6,7 +6,7 @@
 <section class="section">
   <div class="container split">
     <div>
-      {% if page.director_photo %}<img src="{{ page.director_photo.url }}" alt="{{ page.director_name }}">{% endif %}
+      {% if page.director_photo %}<img class="js-lightbox" src="{{ page.director_photo.url }}" alt="{{ page.director_name }}">{% endif %}
     </div>
     <div>
       <span class="eyebrow">A message from our Director</span>
@@ -70,7 +70,7 @@
     <div class="grid grid-4">
       {% for m in team %}
         <div class="card" style="text-align:center;">
-          {% if m.photo %}<img src="{{ m.photo.url }}" alt="{{ m.name }}" style="border-radius:12px;aspect-ratio:1;object-fit:cover;">{% endif %}
+          {% if m.photo %}<img class="js-lightbox" src="{{ m.photo.url }}" alt="{{ m.name }}" style="border-radius:12px;aspect-ratio:1;object-fit:cover;">{% endif %}
           <h3 style="margin-top:0.75rem;">{{ m.name }}</h3>
           <p>{{ m.role }}</p>
         </div>

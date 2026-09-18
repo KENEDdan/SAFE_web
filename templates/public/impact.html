@@ -68,7 +68,7 @@
   <div class="container">
     <div class="section-head"><h2>{{ page.gallery_heading }}</h2></div>
     <div class="gallery">
-      {% for img in gallery %}<figure><img src="{{ img.image.url }}" alt="{{ img.caption }}"></figure>{% endfor %}
+      {% for img in gallery %}<figure><img class="js-lightbox" src="{{ img.image.url }}" alt="{{ img.caption }}"></figure>{% endfor %}
     </div>
   </div>
 </section>
