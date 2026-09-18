@@ -50,7 +50,7 @@ def _form(model_cls, field_names):
 
 
 ProgramForm = _form(Program, ["title", "summary", "description", "icon", "image", "display_order", "is_published"])
-CrossCuttingThemeForm = _form(CrossCuttingTheme, ["title", "description", "display_order", "is_published"])
+CrossCuttingThemeForm = _form(CrossCuttingTheme, ["title", "description", "image", "display_order", "is_published"])
 CoreValueForm = _form(CoreValue, ["title", "description", "icon", "display_order", "is_published"])
 TeamMemberForm = _form(
     TeamMember,
@@ -69,7 +69,7 @@ ActivityForm = _form(
 ProjectForm = _form(
     Project,
     ["title", "location", "status", "summary", "body", "outcomes", "thumbnail",
-     "is_featured", "display_order", "is_published"],
+     "program", "is_featured", "display_order", "is_published"],
 )
 ImpactStatForm = _form(ImpactStat, ["value", "label", "icon", "display_order", "is_published"])
 TargetBeneficiaryForm = _form(TargetBeneficiary, ["value", "label", "display_order", "is_published"])

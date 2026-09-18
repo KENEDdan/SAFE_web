@@ -19,7 +19,18 @@
             <span class="tile-heading">{{ p.title }}<span class="tile-teaser">{{ p.summary }}</span></span>
             <span class="tile-chevron" aria-hidden="true">›</span>
           </summary>
-          <div class="tile-body"><p>{{ p.description|default:p.summary }}</p></div>
+          <div class="tile-body">
+            {% if p.image %}<img class="tile-image" src="{{ p.image.url }}" alt="{{ p.title }}">{% endif %}
+            <p>{{ p.description|default:p.summary }}</p>
+            {% if p.related_projects %}
+              <div class="tile-related">
+                <span class="tile-related-label">Related projects</span>
+                {% for proj in p.related_projects %}
+                  <a href="{% url 'content:project_detail' proj.slug %}" class="chip">{{ proj.title }}</a>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
         </details>
       {% endfor %}
     </div>
@@ -45,7 +56,10 @@
             <span class="tile-heading">{{ t.title }}<span class="tile-teaser">{{ t.description|truncatechars:70 }}</span></span>
             <span class="tile-chevron" aria-hidden="true">›</span>
           </summary>
-          <div class="tile-body"><p>{{ t.description }}</p></div>
+          <div class="tile-body">
+            {% if t.image %}<img class="tile-image" src="{{ t.image.url }}" alt="{{ t.title }}">{% endif %}
+            <p>{{ t.description }}</p>
+          </div>
         </details>
       {% endfor %}
     </div>

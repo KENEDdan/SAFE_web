@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models import Prefetch
 from django.shortcuts import redirect, render
 
 from apps.accounts.decorators import admin_required
@@ -67,9 +68,10 @@ def about(request):
 
 
 def what_we_do(request):
+    related_projects = Prefetch("projects", queryset=Project.objects.published(), to_attr="related_projects")
     ctx = {
         "page": WhatWeDoPage.get_solo(),
-        "programs": Program.objects.published(),
+        "programs": Program.objects.published().prefetch_related(related_projects),
         "themes": CrossCuttingTheme.objects.published(),
     }
     return render(request, "public/what_we_do.html", ctx)

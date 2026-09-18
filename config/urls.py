@@ -43,7 +43,7 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 else:
     _PUBLIC_MEDIA_PREFIXES = [
-        "site", "pages", "programs", "projects", "team", "testimonials",
+        "site", "pages", "programs", "themes", "projects", "team", "testimonials",
         "gallery", "resources", "newsfeed",
     ]
     urlpatterns += [

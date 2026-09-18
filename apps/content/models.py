@@ -44,6 +44,7 @@ class Program(BaseContent):
 class CrossCuttingTheme(BaseContent):
     title = models.CharField(max_length=150)
     description = models.TextField()
+    image = models.ImageField(upload_to="themes/", blank=True, null=True, validators=IMG_VALIDATORS)
 
     def __str__(self):
         return self.title
@@ -182,6 +183,10 @@ class Project(BaseContent):
     )
     thumbnail = models.ImageField(upload_to="projects/", blank=True, null=True, validators=IMG_VALIDATORS)
     is_featured = models.BooleanField(default=False, help_text="Featured projects appear on the homepage.")
+    program = models.ForeignKey(
+        Program, blank=True, null=True, on_delete=models.SET_NULL, related_name="projects",
+        help_text="Which What We Do programme this project delivers, if any.",
+    )
 
     def save(self, *args, **kwargs):
         if not self.slug:
