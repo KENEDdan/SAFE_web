@@ -2,9 +2,11 @@
 {% block title %}Staff Login — {{ site.organization_name }}{% endblock %}
 {% block extra_head %}
   <meta name="robots" content="noindex,nofollow,noarchive">
-  {# same-origin: never leak this page's address to a third party (e.g. the
-     Google Translate script), but still send it on the login form's own
-     same-origin POST — Django's CSRF check requires that. #}
+  {% comment %}
+    same-origin: never leak this page's address to a third party (e.g. the
+    Google Translate script), but still send it on the login form's own
+    same-origin POST — Django's CSRF check requires that.
+  {% endcomment %}
   <meta name="referrer" content="same-origin">
 {% endblock %}
 {% block footer %}{% endblock %}
@@ -21,7 +23,13 @@
       </div>
       <div class="form-group">
         <label for="{{ form.password.id_for_label }}">Password</label>
-        {{ form.password }}
+        <div class="password-field">
+          {{ form.password }}
+          <button type="button" class="password-toggle" aria-pressed="false" aria-label="Show password" aria-controls="{{ form.password.id_for_label }}">
+            <svg class="icon-eye" viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-eye-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/></svg>
+          </button>
+        </div>
         {{ form.password.errors }}
       </div>
       {% if form.non_field_errors %}

@@ -97,4 +97,16 @@
       totalForms.value = idx + 1;
     });
   }
+
+  // ---- Password show/hide toggle ----
+  document.querySelectorAll(".password-toggle").forEach(function (btn) {
+    var input = document.getElementById(btn.getAttribute("aria-controls"));
+    if (!input) return;
+    btn.addEventListener("click", function () {
+      var showing = input.type === "text";
+      input.type = showing ? "password" : "text";
+      btn.setAttribute("aria-pressed", String(!showing));
+      btn.setAttribute("aria-label", showing ? "Show password" : "Hide password");
+    });
+  });
 })();
