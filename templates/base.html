@@ -83,8 +83,6 @@
       <a href="{% url 'pages:contact' %}">Contact</a>
       {% if user.is_authenticated %}
         <a href="{% url 'accounts:dashboard' %}">Management Console</a>
-      {% else %}
-        <a href="{% url 'accounts:login' %}">Staff Login</a>
       {% endif %}
     </nav>
   </div>
@@ -163,7 +161,6 @@
     </div>
     <div class="footer-bottom">
       &copy; {% now "Y" %} {{ site.organization_name }} — {{ site.organization_full_name }}. All rights reserved.
-      {% if not user.is_authenticated %}<a href="{% url 'accounts:login' %}" style="margin-left:0.5rem;">Staff login</a>{% endif %}
     </div>
   </footer>
 {% endblock %}

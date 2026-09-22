@@ -12,16 +12,17 @@ from apps.core.sitemaps import SITEMAPS
 
 
 def robots_txt(request):
+    # Staff paths are deliberately absent: listing them here would publish the
+    # console's location. They return 404 to anonymous visitors instead.
     lines = [
         "User-agent: *",
-        "Disallow: /manage/",
-        "Disallow: /dashboard/",
-        "Disallow: /accounts/",
-        "Disallow: /django-admin/",
+        "Disallow:",
         f"Sitemap: {request.build_absolute_uri('/sitemap.xml')}",
     ]
     return HttpResponse("\n".join(lines) + "\n", content_type="text/plain")
 
+
+_STAFF = settings.STAFF_URL_PREFIX
 
 urlpatterns = [
     path("robots.txt", robots_txt),
@@ -31,8 +32,8 @@ urlpatterns = [
         {"sitemaps": SITEMAPS},
         name="django.contrib.sitemaps.views.sitemap",
     ),
-    path("django-admin/", admin.site.urls),
-    path("accounts/", include("apps.accounts.urls", namespace="accounts")),
+    path(f"{_STAFF}/django-admin/", admin.site.urls),
+    path(f"{_STAFF}/", include("apps.accounts.urls", namespace="accounts")),
     path("", include("apps.content.urls", namespace="content")),
     path("", include("apps.newsfeed.urls", namespace="newsfeed")),
     path("", include("apps.submissions.urls", namespace="submissions")),

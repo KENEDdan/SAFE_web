@@ -41,8 +41,14 @@ docker run -d --name safe_db -e POSTGRES_DB=safe_db -e POSTGRES_USER=safe_user \
 ```
 
 - Public site: `http://127.0.0.1:8000/`
-- Console: `http://127.0.0.1:8000/accounts/login/` → dashboard at `/accounts/dashboard/`
-- Django admin (fallback): `/django-admin/`
+- Console: `/<STAFF_URL_PREFIX>/login/` → dashboard at `/<STAFF_URL_PREFIX>/dashboard/`
+- Django admin (fallback): `/<STAFF_URL_PREFIX>/django-admin/`
+
+`STAFF_URL_PREFIX` is the secret path the whole staff console is served from — it
+comes from `.env` and is never committed or linked from the public site. Nothing
+in the header, footer, sitemap or `robots.txt` points at it, and staff URLs return
+404 to anonymous visitors so they can't redirect a stranger to the login page.
+Rotating the value in `.env` moves the console; staff need the new link.
 
 ## Docker
 

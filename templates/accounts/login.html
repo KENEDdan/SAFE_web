@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block title %}Staff Login — {{ site.organization_name }}{% endblock %}
+{% block extra_head %}
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  {# The page's own address is the secret, so don't hand it to third-party scripts. #}
+  <meta name="referrer" content="no-referrer">
+{% endblock %}
 {% block footer %}{% endblock %}
 {% block content %}
 <div class="auth-wrap">

@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 
 from decouple import config
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -112,6 +113,19 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "accounts.User"
+
+# The staff console is mounted at an unguessable prefix so no login portal is
+# reachable from a public path. The real value lives only in .env — committing it
+# would publish it. Rotating it moves the whole console in one step.
+STAFF_URL_PREFIX = config("STAFF_URL_PREFIX", default="").strip("/")
+if not STAFF_URL_PREFIX:
+    if DEBUG:
+        STAFF_URL_PREFIX = "staff-console-dev"
+    else:
+        raise ImproperlyConfigured(
+            "STAFF_URL_PREFIX must be set: it is the secret path the staff console "
+            "and login portal are served from."
+        )
 
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "accounts:dashboard"
