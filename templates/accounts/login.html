@@ -2,8 +2,10 @@
 {% block title %}Staff Login — {{ site.organization_name }}{% endblock %}
 {% block extra_head %}
   <meta name="robots" content="noindex,nofollow,noarchive">
-  {# The page's own address is the secret, so don't hand it to third-party scripts. #}
-  <meta name="referrer" content="no-referrer">
+  {# same-origin: never leak this page's address to a third party (e.g. the
+     Google Translate script), but still send it on the login form's own
+     same-origin POST — Django's CSRF check requires that. #}
+  <meta name="referrer" content="same-origin">
 {% endblock %}
 {% block footer %}{% endblock %}
 {% block content %}
